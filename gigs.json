@@ -1,0 +1,21 @@
+{
+  "gigs": [
+    {
+      "venue": "The Cameron House",
+      "city": "Toronto",
+      "address": "408 Queen St W, Toronto",
+      "date": "2026-06-13T21:00:00-04:00",
+      "url": "https://maps.google.com/?q=The+Cameron+House+Toronto",
+      "note": "PLACEHOLDER \u2014 replace with real upcoming date"
+    },
+    {
+      "venue": "Lansdowne Pub",
+      "city": "Toronto",
+      "address": "Lansdowne & Dundas, Toronto",
+      "date": "2026-06-27T21:30:00-04:00",
+      "url": "https://maps.google.com/?q=Lansdowne+Pub+Toronto",
+      "note": "PLACEHOLDER \u2014 replace with real upcoming date"
+    }
+  ],
+  "_instructions": "Edit this file to update upcoming gigs. ISO 8601 dates with timezone. The site's ticker auto-picks the next future date. Push to GitHub, Vercel re-deploys automatically."
+}
