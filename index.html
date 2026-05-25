@@ -1322,9 +1322,16 @@ body[data-scene="2"] .crowd { color: rgba(214,51,132,0.32); }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.62;
-  mix-blend-mode: screen;
+  object-position: center 42%;
+  opacity: 0;
   z-index: 0;
+  transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: contrast(1.05) saturate(0.92);
+  pointer-events: none;
+}
+.hero-bg-video.is-ready { opacity: 0.55; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-video { display: none; }
 }
 .hero-bg-img {
   position: absolute;
@@ -1786,6 +1793,9 @@ body[data-scene="2"] .crowd { color: rgba(214,51,132,0.32); }
 <section class="hero" id="top">
   <div class="hero-bg">
     <img class="hero-bg-img" src="assets/photos/hero-drake.jpg" alt="" loading="eager" decoding="async" fetchpriority="high">
+    <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="assets/photos/hero-drake.jpg">
+      <source src="assets/hero-loop.mp4" type="video/mp4">
+    </video>
   </div>
   <div class="hero-bg-overlay"></div>
   <svg class="hero-crowd" viewBox="0 0 1200 120" preserveAspectRatio="xMidYEnd meet" aria-hidden="true">
@@ -2386,6 +2396,16 @@ body[data-scene="2"] .crowd { color: rgba(214,51,132,0.32); }
 </footer>
 
 <script>
+  // ---------- 0. Hero video fade-in once playing ----------
+  (function(){
+    const heroVid = document.querySelector('.hero-bg-video');
+    if (!heroVid) return;
+    const reveal = () => heroVid.classList.add('is-ready');
+    heroVid.addEventListener('playing', reveal, { once: true });
+    // safety net if 'playing' never fires (some Safari quirks): reveal once enough buffered
+    heroVid.addEventListener('canplay', reveal, { once: true });
+  })();
+
   // ---------- 1. Scroll-triggered reveal ----------
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
