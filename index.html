@@ -179,7 +179,8 @@ img, video { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .hero-media img { animation: none; transform: scale(1.04); }
 }
-.hero > * { position: relative; z-index: 3; }
+.hero > *:not(.hero-media) { position: relative; z-index: 3; }
+.hero > .hero-media { position: absolute; inset: 0; z-index: 0; }
 
 .hero-eyebrow {
   font-size: 13px;
