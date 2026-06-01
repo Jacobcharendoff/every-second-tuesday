@@ -8,9 +8,9 @@
 <meta name="description" content="Toronto party rock band. Booked for the last hour of the night. Built to make it count.">
 <meta property="og:title" content="Every Second Tuesday — The 1am band">
 <meta property="og:description" content="Toronto party rock band. Booked for the last hour of the night. Built to make it count.">
-<meta property="og:image" content="/assets/photos/hero-drake.jpg">
+<meta property="og:image" content="/assets/photos/c-hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" as="image" href="/assets/photos/hero-drake.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/photos/c-hero.jpg" fetchpriority="high">
 <link rel="preload" as="video" href="/assets/hero-loop.mp4">
 <style>
 /* ============================================================
@@ -19,9 +19,9 @@
    ============================================================ */
 
 :root {
-  --bg: #000;
-  --surface: #0c0c0d;
-  --text: #f5f5f7;
+  --bg: #0a0809;
+  --surface: #16121b;
+  --text: #f5f2ee;
   --text-dim: rgba(245,245,247,0.62);
   --text-faint: rgba(245,245,247,0.42);
   --hair: rgba(255,255,255,0.08);
@@ -338,6 +338,54 @@ section {
   text-align: center;
   margin: 28px auto 0;
   max-width: 36ch;
+}
+
+/* ============================================================
+   QUOTES · what rooms say
+   ============================================================ */
+#quotes { padding-top: 140px; padding-bottom: 140px; }
+.quotes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 56px;
+}
+.quote {
+  padding: 40px 36px;
+  background: var(--surface);
+  border-radius: 18px;
+  position: relative;
+  border: 0.5px solid var(--hair);
+}
+.quote::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 36px; right: 36px;
+  height: 2px;
+  background: var(--grad);
+  background-size: 220% 100%;
+  animation: gradflow 14s ease-in-out infinite;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+.quote blockquote {
+  font-size: clamp(20px, 1.7vw, 24px);
+  font-weight: 500;
+  line-height: 1.36;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  margin: 0 0 22px;
+}
+.quote figcaption {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+@media (max-width: 880px) {
+  .quotes-grid { grid-template-columns: 1fr; gap: 20px; }
+  .quote { padding: 32px 26px; }
 }
 
 /* ============================================================
@@ -684,7 +732,7 @@ section {
 <nav class="nav">
   <a href="#top" class="nav-logo"><span>Every</span><span class="second">Second</span><span>Tuesday</span></a>
   <div class="nav-links">
-    <a href="#proof">The night</a>
+    <a href="#quotes">Reviews</a>
     <a href="#watch">Watch</a>
     <a href="#setlist">Songs</a>
     <a href="#band">Band</a>
@@ -697,22 +745,41 @@ section {
 ============================================================ -->
 <header class="hero" id="top">
   <div class="hero-media">
-    <img src="assets/photos/hero-drake.jpg" alt="" loading="eager" decoding="async" fetchpriority="high">
-    <video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="assets/photos/hero-drake.jpg">
+    <img src="assets/photos/c-hero.jpg" alt="" loading="eager" decoding="async" fetchpriority="high">
+    <video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="assets/photos/c-hero.jpg">
       <source src="assets/hero-loop.mp4" type="video/mp4">
     </video>
   </div>
 
-  <div class="hero-eyebrow reveal">Toronto · Party rock</div>
+  <div class="hero-eyebrow reveal">A working Toronto cover band</div>
   <h1 class="wordmark reveal d1"><span>EVERY</span><span class="second">SECOND</span><span>TUESDAY</span></h1>
-  <p class="hero-headline reveal d2">The <em id="hero-time">1am</em> band.</p>
-  <p class="hero-sub reveal d3">Booked for the last hour of the night.<br>Built to make it count.</p>
+  <p class="hero-headline reveal d2">We jam on Tuesdays so your <em>Saturdays</em> don't suck.</p>
+  <p class="hero-sub reveal d3">Bars, weddings, festivals, the occasional 40th.<br>The floor stays full. We pack up clean. Most clients book us again.</p>
   <div class="hero-cta-row reveal d4">
-    <a class="cta" href="#book">Check the calendar</a>
+    <a class="cta" href="#book">Check availability</a>
     <a class="cta-ghost" href="#watch">Watch a set</a>
   </div>
   <div class="scroll-cue">Scroll</div>
 </header>
+
+<!-- ============================================================
+     WHAT ROOMS SAY · testimonials
+============================================================ -->
+<section id="quotes">
+  <div class="inner">
+    <div class="eyebrow grad reveal">What rooms say</div>
+    <div class="quotes-grid reveal d2">
+      <figure class="quote">
+        <blockquote>"Booked them for our fundraiser at the Drake Underground. Floor was full from the second they started — people stayed for the auction instead of bailing after dinner. Already asking them back for next year."</blockquote>
+        <figcaption>Songs For Hope · Drake Underground</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>"Saturday night, packed room. They knew every song the crowd wanted, read the room as it shifted, packed up clean. Cleanest set of bar nights I've had in a while."</blockquote>
+        <figcaption>The Rose and Crown · Toronto</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
 <!-- ============================================================
      PROOF · by the night
@@ -743,8 +810,8 @@ section {
     </div>
 
     <div class="proof-photo reveal d4">
-      <img src="assets/photos/gallery-outdoor-set.jpg" alt="Every Second Tuesday playing a full set at Roncesvalles Polish Festival, summer 2024" loading="lazy">
-      <div class="cap">Roncesvalles · Summer 2024</div>
+      <img src="assets/photos/c-festival.jpg" alt="Every Second Tuesday playing a full set at Roncesvalles Polish Festival, summer 2024" loading="lazy">
+      <div class="cap">Roncesvalles Polish Festival · Summer 2024</div>
     </div>
   </div>
 </section>
@@ -775,8 +842,8 @@ section {
 <section id="setlist">
   <div class="inner inner-narrow">
     <div class="eyebrow grad reveal">What we play</div>
-    <h2 class="headline reveal d1">Songs people don't admit<br>they know <em>all the words to.</em></h2>
-    <p class="sub reveal d2">A working setlist of about thirty. Curated for the room, never the same night twice.</p>
+    <h2 class="headline reveal d1">The songs that <em>get people up.</em></h2>
+    <p class="sub reveal d2">About forty in rotation. We pick to the room. Never the same night twice.</p>
 
     <ol class="tracklist reveal d3">
       <li class="track"><span class="n">01</span><span class="t">Mr. Brightside</span><span class="a">The Killers</span></li>
@@ -810,22 +877,22 @@ section {
 
     <div class="band-row reveal d3">
       <div class="member">
-        <div class="member-photo"><img src="assets/photos/member-rudy.jpg?v=2" alt="Rudy Subramaniam" loading="lazy" style="object-position: 62% 25%"></div>
+        <div class="member-photo"><img src="assets/photos/c-rudy.jpg" alt="Rudy Subramaniam" loading="lazy" style="object-position: 60% 25%"></div>
         <div class="member-name">Rudy Subramaniam</div>
         <div class="member-role">Vocals & Guitar</div>
       </div>
       <div class="member">
-        <div class="member-photo"><img src="assets/photos/member-adam.jpg" alt="Adam Somerville" loading="lazy" style="object-position: 30% 30%"></div>
+        <div class="member-photo"><img src="assets/photos/c-adam.jpg" alt="Adam Somerville" loading="lazy" style="object-position: 50% 30%"></div>
         <div class="member-name">Adam Somerville</div>
         <div class="member-role">Bass</div>
       </div>
       <div class="member">
-        <div class="member-photo"><img src="assets/photos/member-matt.jpg" alt="Matt Koc" loading="lazy" style="object-position: 50% 18%"></div>
+        <div class="member-photo"><img src="assets/photos/c-matt.jpg" alt="Matt Koc" loading="lazy" style="object-position: 50% 22%"></div>
         <div class="member-name">Matt Koc</div>
         <div class="member-role">Drums</div>
       </div>
       <div class="member">
-        <div class="member-photo"><img src="assets/photos/member-jacob.jpg?v=2" alt="Jacob Charendoff" loading="lazy" style="object-position: 12% 35%"></div>
+        <div class="member-photo"><img src="assets/photos/c-jacob.jpg" alt="Jacob Charendoff" loading="lazy" style="object-position: 35% 32%"></div>
         <div class="member-name">Jacob Charendoff</div>
         <div class="member-role">Guitar & Keys</div>
       </div>
