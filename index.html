@@ -342,51 +342,78 @@ section {
 }
 
 /* ============================================================
-   QUOTES · what rooms say
+   THE MOMENT · what we deliver
    ============================================================ */
-#quotes { padding-top: 140px; padding-bottom: 140px; }
-.quotes-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  margin-top: 56px;
+#moment { padding-top: 180px; padding-bottom: 180px; }
+.moment-body {
+  margin-top: 64px;
+  text-align: left;
+  font-size: clamp(20px, 1.6vw, 26px);
+  line-height: 1.46;
+  color: rgba(245,242,238,0.86);
+  letter-spacing: -0.012em;
+  font-weight: 400;
 }
-.quote {
-  padding: 40px 36px;
-  background: var(--surface);
-  border-radius: 18px;
-  position: relative;
-  border: 0.5px solid var(--hair);
-}
-.quote::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 36px; right: 36px;
-  height: 2px;
+.moment-body p { margin-bottom: 24px; }
+.moment-body p:last-child { margin-bottom: 0; }
+.moment-body em {
+  font-style: normal;
+  font-weight: 600;
   background: var(--grad);
   background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
   animation: gradflow 14s ease-in-out infinite;
-  border-radius: 2px;
-  opacity: 0.85;
+  letter-spacing: -0.005em;
 }
-.quote blockquote {
-  font-size: clamp(20px, 1.7vw, 24px);
-  font-weight: 500;
-  line-height: 1.36;
-  letter-spacing: -0.012em;
+.moment-tag {
+  margin-top: 40px !important;
+  padding-top: 24px;
+  border-top: 0.5px solid var(--hair);
+  font-size: 16px !important;
+  color: var(--text-faint);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   VENUES · where we play
+   ============================================================ */
+.venues {
+  list-style: none;
+  padding: 0;
+  margin: 64px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--hair);
+  border-top: 0.5px solid var(--hair);
+  border-bottom: 0.5px solid var(--hair);
+}
+.venues li {
+  background: var(--bg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  transition: background 0.25s ease;
+}
+.venues li:hover { background: var(--surface); }
+.venue-name {
+  font-size: clamp(22px, 1.9vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.018em;
   color: var(--text);
-  margin: 0 0 22px;
 }
-.quote figcaption {
+.venue-meta {
   font-size: 13px;
-  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-faint);
 }
-@media (max-width: 880px) {
-  .quotes-grid { grid-template-columns: 1fr; gap: 20px; }
-  .quote { padding: 32px 26px; }
+@media (max-width: 720px) {
+  .venues { grid-template-columns: 1fr; }
+  .venues li { padding: 24px 20px; }
 }
 
 /* ============================================================
@@ -531,46 +558,76 @@ section {
 }
 
 /* ============================================================
-   SETLIST · typography as art
+   SETLIST · typography as art, grouped by decade
    ============================================================ */
 .tracklist {
   margin-top: 96px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.era {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 48px;
+  align-items: start;
+  padding: 56px 0;
   border-top: 0.5px solid var(--hair);
+}
+.era:last-of-type { border-bottom: 0.5px solid var(--hair); }
+.era-mark {
+  font-size: clamp(56px, 6vw, 88px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  background: var(--grad);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: gradflow 14s ease-in-out infinite;
+  position: sticky;
+  top: 100px;
+}
+.tracks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .track {
   display: grid;
-  grid-template-columns: 56px 1fr auto;
-  align-items: center;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
   gap: 24px;
-  padding: 22px 0;
+  padding: 14px 0;
   border-bottom: 0.5px solid var(--hair);
   transition: padding 0.3s var(--ease);
 }
-.track:hover { padding-left: 12px; }
-.track .n {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-faint);
-  letter-spacing: 0.04em;
-  font-variant-numeric: tabular-nums;
-}
+.track:last-child { border-bottom: 0; }
+.track:hover { padding-left: 10px; }
 .track .t {
-  font-size: clamp(22px, 2.4vw, 32px);
+  font-size: clamp(20px, 1.9vw, 26px);
   font-weight: 500;
-  letter-spacing: -0.018em;
-  line-height: 1.15;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
 }
 .track .a {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--text-dim);
   letter-spacing: -0.002em;
 }
 .tracklist-more {
   text-align: center;
-  margin-top: 64px;
+  margin-top: 56px;
   font-size: 14px;
   color: var(--text-faint);
+}
+@media (max-width: 720px) {
+  .era { grid-template-columns: 1fr; gap: 14px; padding: 36px 0; }
+  .era-mark { position: static; font-size: clamp(40px, 11vw, 64px); }
+  .track { padding: 12px 0; gap: 18px; }
+  .track .t { font-size: 18px; }
+  .track .a { font-size: 13px; }
 }
 
 /* ============================================================
@@ -733,10 +790,10 @@ section {
 <nav class="nav">
   <a href="#top" class="nav-logo"><span>Every</span><span class="second">Second</span><span>Tuesday</span></a>
   <div class="nav-links">
-    <a href="#quotes">Reviews</a>
+    <a href="#moment">The night</a>
+    <a href="#proof">Rooms</a>
     <a href="#watch">Watch</a>
     <a href="#setlist">Songs</a>
-    <a href="#band">Band</a>
     <a href="#book">Book</a>
   </div>
 </nav>
@@ -752,10 +809,10 @@ section {
     </video>
   </div>
 
-  <div class="hero-eyebrow reveal">A working Toronto cover band</div>
+  <div class="hero-eyebrow reveal">Toronto party rock · since 2019</div>
   <h1 class="wordmark reveal d1"><span>EVERY</span><span class="second">SECOND</span><span>TUESDAY</span></h1>
-  <p class="hero-headline reveal d2">We jam on Tuesdays so your <em>Saturdays</em> don't suck.</p>
-  <p class="hero-sub reveal d3">Bars, weddings, festivals, the occasional 40th.<br>The floor stays full. We pack up clean. Most clients book us again.</p>
+  <p class="hero-headline reveal d2">Seven decades of <em>singalongs.</em></p>
+  <p class="hero-sub reveal d3">Mr. Brightside. Don't Stop Believin'. Sex on Fire.<br>The songs your bar already knows the words to.</p>
   <div class="hero-cta-row reveal d4">
     <a class="cta" href="#book">Check availability</a>
     <a class="cta-ghost" href="#watch">Watch a set</a>
@@ -764,51 +821,38 @@ section {
 </header>
 
 <!-- ============================================================
-     WHAT ROOMS SAY · testimonials
+     THE MOMENT · paint the picture
 ============================================================ -->
-<section id="quotes">
-  <div class="inner">
-    <div class="eyebrow grad reveal">What rooms say</div>
-    <div class="quotes-grid reveal d2">
-      <figure class="quote">
-        <blockquote>"Booked them for our fundraiser at the Drake Underground. Floor was full from the second they started — people stayed for the auction instead of bailing after dinner. Already asking them back for next year."</blockquote>
-        <figcaption>Songs For Hope · Drake Underground</figcaption>
-      </figure>
-      <figure class="quote">
-        <blockquote>"Saturday night, packed room. They knew every song the crowd wanted, read the room as it shifted, packed up clean. Cleanest set of bar nights I've had in a while."</blockquote>
-        <figcaption>The Rose and Crown · Toronto</figcaption>
-      </figure>
+<section id="moment">
+  <div class="inner inner-narrow">
+    <div class="eyebrow grad reveal">What we deliver</div>
+    <h2 class="headline reveal d1">The moment your <em>room turns.</em></h2>
+    <div class="moment-body reveal d2">
+      <p>10:30pm Saturday. Bar's three-deep. Floor's half-full. We open with something everyone knows the chorus to.</p>
+      <p>By the third song the floor's full. By midnight you can't hear us over the room. Phones up. Voices going. Strangers with their arms around each other yelling <em>"I've got SOUL but I'm not a SOLDIER."</em></p>
+      <p>That's what we sell. The minute your room stops being a bunch of separate tables and becomes one crowd. Eighty people singing the same song at the same time.</p>
+      <p class="moment-tag">Bars, weddings, festivals, the occasional 40th. We work weekends across Southern Ontario.</p>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
-     PROOF · by the night
+     WHERE WE PLAY · venue grid
 ============================================================ -->
 <section id="proof">
   <div class="inner">
-    <div class="eyebrow grad reveal">By the night</div>
-    <h2 class="headline reveal d1">Three sets.<br>Four hours.<br><em>One job.</em></h2>
-    <p class="sub reveal d2">Floors fill around 11. Bar runs hardest from midnight to last call. That's our window, and it's where we work.</p>
+    <div class="eyebrow grad reveal">Where we play</div>
+    <h2 class="headline reveal d1">Six rooms we <em>work</em><br>most weekends.</h2>
+    <p class="sub reveal d2">From the Drake Underground at midnight to the Polish Festival on a Saturday afternoon.</p>
 
-    <div class="proof-grid reveal d3">
-      <div class="proof-stat">
-        <div class="num">3 × 50</div>
-        <div class="label">Minute sets</div>
-      </div>
-      <div class="proof-stat">
-        <div class="num"><span class="grad">110 → 140</span></div>
-        <div class="label">BPM, warmup to peak</div>
-      </div>
-      <div class="proof-stat">
-        <div class="num">50 — 400</div>
-        <div class="label">Room capacity</div>
-      </div>
-      <div class="proof-stat">
-        <div class="num">Self-PA</div>
-        <div class="label">Rooms under 200 cap</div>
-      </div>
-    </div>
+    <ul class="venues reveal d3">
+      <li><span class="venue-name">The Drake Underground</span><span class="venue-meta">Toronto · 200 cap club</span></li>
+      <li><span class="venue-name">The Rose &amp; Crown</span><span class="venue-meta">Toronto · East end pub</span></li>
+      <li><span class="venue-name">Diesel Room</span><span class="venue-meta">Toronto · Live music room</span></li>
+      <li><span class="venue-name">Smoke Show BBQ &amp; Brew</span><span class="venue-meta">Hamilton · Weekend bookings</span></li>
+      <li><span class="venue-name">Southside Johnny's</span><span class="venue-meta">Mississauga · Bar &amp; grill</span></li>
+      <li><span class="venue-name">Roncesvalles Polish Festival</span><span class="venue-meta">Toronto · Outdoor festival main stage</span></li>
+    </ul>
 
     <div class="proof-photo reveal d4">
       <img src="assets/photos/c-festival.jpg" alt="Every Second Tuesday playing a full set at Roncesvalles Polish Festival, summer 2024" loading="lazy">
@@ -822,9 +866,9 @@ section {
 ============================================================ -->
 <section id="watch">
   <div class="inner">
-    <div class="eyebrow reveal">Watch</div>
-    <h2 class="headline reveal d1">Easier to <em>see</em><br>than to describe.</h2>
-    <p class="sub reveal d2">Sixty seconds from a Saturday at The Drake Underground.</p>
+    <div class="eyebrow grad reveal">Watch a set</div>
+    <h2 class="headline reveal d1">Sixty seconds from <em>last Saturday.</em></h2>
+    <p class="sub reveal d2">Whippin' Post · Live at The Drake Underground.</p>
 
     <div class="watch-frame reveal d3" id="watch-frame" data-yt="SgCivOfwYG4">
       <img class="watch-poster" src="https://i.ytimg.com/vi/SgCivOfwYG4/maxresdefault.jpg" alt="Whippin' Post live at The Drake Underground" loading="lazy">
@@ -842,28 +886,85 @@ section {
 ============================================================ -->
 <section id="setlist">
   <div class="inner inner-narrow">
-    <div class="eyebrow grad reveal">What we play</div>
-    <h2 class="headline reveal d1">The songs that <em>get people up.</em></h2>
-    <p class="sub reveal d2">About forty in rotation. We pick to the room. Never the same night twice.</p>
+    <div class="eyebrow grad reveal">The setlist</div>
+    <h2 class="headline reveal d1">Forty songs. Seven decades.<br><em>Never the same set twice.</em></h2>
+    <p class="sub reveal d2">We pick to the room as the night moves. Below is the working rotation.</p>
 
-    <ol class="tracklist reveal d3">
-      <li class="track"><span class="n">01</span><span class="t">Mr. Brightside</span><span class="a">The Killers</span></li>
-      <li class="track"><span class="n">02</span><span class="t">Sex on Fire</span><span class="a">Kings of Leon</span></li>
-      <li class="track"><span class="n">03</span><span class="t">Sweet Caroline</span><span class="a">Neil Diamond</span></li>
-      <li class="track"><span class="n">04</span><span class="t">Don't Stop Believin'</span><span class="a">Journey</span></li>
-      <li class="track"><span class="n">05</span><span class="t">Take Me Out</span><span class="a">Franz Ferdinand</span></li>
-      <li class="track"><span class="n">06</span><span class="t">Seven Nation Army</span><span class="a">The White Stripes</span></li>
-      <li class="track"><span class="n">07</span><span class="t">Mr. Jones</span><span class="a">Counting Crows</span></li>
-      <li class="track"><span class="n">08</span><span class="t">Closing Time</span><span class="a">Semisonic</span></li>
-      <li class="track"><span class="n">09</span><span class="t">Born to Be Wild</span><span class="a">Steppenwolf</span></li>
-      <li class="track"><span class="n">10</span><span class="t">Whippin' Post</span><span class="a">The Allman Brothers</span></li>
-      <li class="track"><span class="n">11</span><span class="t">White Room</span><span class="a">Cream</span></li>
-      <li class="track"><span class="n">12</span><span class="t">Love Me Two Times</span><span class="a">The Doors</span></li>
-      <li class="track"><span class="n">13</span><span class="t">Paint It Black</span><span class="a">The Rolling Stones</span></li>
-      <li class="track"><span class="n">14</span><span class="t">Rock You Like a Hurricane</span><span class="a">Scorpions</span></li>
-      <li class="track"><span class="n">15</span><span class="t">Learn to Fly</span><span class="a">Foo Fighters</span></li>
-    </ol>
-    <p class="tracklist-more reveal d4">+ fifteen more we rotate through</p>
+    <div class="tracklist reveal d3">
+      <div class="era">
+        <div class="era-mark">60s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">Brown Eyed Girl</span><span class="a">Van Morrison</span></li>
+          <li class="track"><span class="t">Born to Be Wild</span><span class="a">Steppenwolf</span></li>
+          <li class="track"><span class="t">Paint It Black</span><span class="a">The Rolling Stones</span></li>
+          <li class="track"><span class="t">Love Me Two Times</span><span class="a">The Doors</span></li>
+        </ol>
+      </div>
+      <div class="era">
+        <div class="era-mark">70s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">Don't Stop Me Now</span><span class="a">Queen</span></li>
+          <li class="track"><span class="t">Whippin' Post</span><span class="a">The Allman Brothers</span></li>
+          <li class="track"><span class="t">White Room</span><span class="a">Cream</span></li>
+          <li class="track"><span class="t">Bohemian Rhapsody</span><span class="a">Queen</span></li>
+          <li class="track"><span class="t">Free Bird</span><span class="a">Lynyrd Skynyrd</span></li>
+        </ol>
+      </div>
+      <div class="era">
+        <div class="era-mark">80s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">Don't Stop Believin'</span><span class="a">Journey</span></li>
+          <li class="track"><span class="t">Livin' on a Prayer</span><span class="a">Bon Jovi</span></li>
+          <li class="track"><span class="t">Sweet Child O' Mine</span><span class="a">Guns N' Roses</span></li>
+          <li class="track"><span class="t">Pour Some Sugar on Me</span><span class="a">Def Leppard</span></li>
+          <li class="track"><span class="t">You Shook Me All Night Long</span><span class="a">AC/DC</span></li>
+          <li class="track"><span class="t">Africa</span><span class="a">Toto</span></li>
+          <li class="track"><span class="t">Take On Me</span><span class="a">a-ha</span></li>
+        </ol>
+      </div>
+      <div class="era">
+        <div class="era-mark">90s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">Mr. Jones</span><span class="a">Counting Crows</span></li>
+          <li class="track"><span class="t">Closing Time</span><span class="a">Semisonic</span></li>
+          <li class="track"><span class="t">All the Small Things</span><span class="a">blink-182</span></li>
+          <li class="track"><span class="t">Learn to Fly</span><span class="a">Foo Fighters</span></li>
+          <li class="track"><span class="t">Wonderwall</span><span class="a">Oasis</span></li>
+        </ol>
+      </div>
+      <div class="era">
+        <div class="era-mark">00s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">Mr. Brightside</span><span class="a">The Killers</span></li>
+          <li class="track"><span class="t">Sex on Fire</span><span class="a">Kings of Leon</span></li>
+          <li class="track"><span class="t">Seven Nation Army</span><span class="a">The White Stripes</span></li>
+          <li class="track"><span class="t">Take Me Out</span><span class="a">Franz Ferdinand</span></li>
+          <li class="track"><span class="t">Vertigo</span><span class="a">U2</span></li>
+          <li class="track"><span class="t">Use Somebody</span><span class="a">Kings of Leon</span></li>
+          <li class="track"><span class="t">Hey Ya!</span><span class="a">OutKast</span></li>
+        </ol>
+      </div>
+      <div class="era">
+        <div class="era-mark">10s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">Some Nights</span><span class="a">fun.</span></li>
+          <li class="track"><span class="t">Pumped Up Kicks</span><span class="a">Foster the People</span></li>
+          <li class="track"><span class="t">Shut Up and Dance</span><span class="a">Walk the Moon</span></li>
+          <li class="track"><span class="t">Riptide</span><span class="a">Vance Joy</span></li>
+          <li class="track"><span class="t">Counting Stars</span><span class="a">OneRepublic</span></li>
+          <li class="track"><span class="t">We Are Young</span><span class="a">fun.</span></li>
+        </ol>
+      </div>
+      <div class="era">
+        <div class="era-mark">20s</div>
+        <ol class="tracks">
+          <li class="track"><span class="t">About Damn Time</span><span class="a">Lizzo</span></li>
+          <li class="track"><span class="t">Last Night</span><span class="a">Morgan Wallen</span></li>
+          <li class="track"><span class="t">Espresso</span><span class="a">Sabrina Carpenter</span></li>
+        </ol>
+      </div>
+    </div>
+    <p class="tracklist-more reveal d4">+ a handful more we rotate through. Pull-up requests welcome.</p>
   </div>
 </section>
 
@@ -872,9 +973,9 @@ section {
 ============================================================ -->
 <section id="band">
   <div class="inner">
-    <div class="eyebrow reveal">The band</div>
+    <div class="eyebrow grad reveal">The band</div>
     <h2 class="headline reveal d1">Four of us.<br><em>One floor.</em></h2>
-    <p class="sub reveal d2">We met jamming every other Tuesday. The name was supposed to be temporary.</p>
+    <p class="sub reveal d2">We met jamming every other Tuesday. The name was supposed to be temporary. The rest is here.</p>
 
     <div class="band-row reveal d3">
       <div class="member">
@@ -908,7 +1009,7 @@ section {
   <div class="inner inner-narrow">
     <div class="eyebrow grad reveal">Book the band</div>
     <h2 class="headline reveal d1">Tell us about <em>the night.</em></h2>
-    <p class="sub reveal d2">A few lines about the venue, the date, and what you're picturing. We'll come back to you the same week.</p>
+    <p class="sub reveal d2">A few lines about the venue, the date, what you're picturing. We reply within 48 hours.</p>
 
     <form class="book-form reveal d3" id="book-form" action="https://formsubmit.co/booking@everysecondtuesday.ca" method="POST">
       <input type="hidden" name="_subject" value="Booking inquiry · everysecondtuesday.ca">
