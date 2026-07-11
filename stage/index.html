@@ -36,12 +36,32 @@
     transition: background-color 0.35s ease;
   }
 
-  /* ─── TOP ─── */
+  /* ─── TOP BAR ─── */
   .top {
     padding: clamp(8px, 1.8vh, 20px) clamp(14px, 4vw, 32px) clamp(4px, 1vh, 10px);
     display: flex; align-items: center; gap: clamp(8px, 2vw, 18px);
     flex-shrink: 0;
   }
+  .home-btn {
+    -webkit-appearance: none; appearance: none;
+    background: rgba(244,237,225,0.10);
+    color: var(--fg);
+    border: 1.5px solid rgba(244,237,225,0.30);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(10px, 1.4vh, 13px);
+    font-weight: 900;
+    letter-spacing: 0.20em; text-transform: uppercase;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+    -webkit-user-select: none; user-select: none;
+    z-index: 20;
+    position: relative;
+  }
+  .home-btn:active { transform: scale(0.96); background: var(--accent); border-color: var(--accent); color: #000; }
+
   .progress { display: flex; gap: 4px; flex: 1; min-width: 0; }
   .progress .dot {
     flex: 1; height: 4px;
@@ -98,15 +118,12 @@
   }
   .song {
     font-weight: 900;
-    /* KEY FIX: use narrower of width and height so long titles fit iPhone */
     font-size: clamp(20px, min(6.4vh, 7.6vw), 96px);
     line-height: 1.02;
     letter-spacing: -0.024em;
     color: var(--fg);
     display: flex; align-items: baseline; gap: clamp(8px, 1.6vw, 24px);
     overflow-wrap: break-word;
-    word-break: normal;
-    hyphens: none;
   }
   .song .num {
     font-family: "SF Mono", ui-monospace, monospace;
@@ -120,14 +137,107 @@
     align-self: flex-start;
     padding-top: 0.55em;
   }
-  .song .title {
-    flex: 1;
-    min-width: 0;
-    overflow-wrap: break-word;
-    word-break: normal;
+  .song .title { flex: 1; min-width: 0; overflow-wrap: break-word; }
+
+  /* Single-song mode — one giant song per screen */
+  .single-body {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: clamp(16px, 3vh, 40px) clamp(16px, 5vw, 44px);
+  }
+  .single-body .kicker {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(10px, 1.6vh, 15px);
+    letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--dim);
+    padding-bottom: clamp(20px, 3.5vh, 40px);
+  }
+  .single-body .title {
+    font-weight: 900;
+    font-size: clamp(38px, min(12vh, 14vw), 200px);
+    line-height: 1.0;
+    letter-spacing: -0.032em;
+    color: var(--fg);
+    text-transform: uppercase;
+  }
+  .single-body .num {
+    font-weight: 900;
+    font-size: clamp(52px, min(16vh, 20vw), 260px);
+    color: var(--accent);
+    letter-spacing: -0.048em;
+    line-height: 0.9;
+    padding-bottom: clamp(14px, 3vh, 32px);
+    text-shadow: 0 0 42px color-mix(in srgb, var(--accent) 55%, transparent);
   }
 
-  /* ─── BOTTOM ─── */
+  /* Full-set mode — scrollable full listing */
+  .full-body {
+    flex: 1; min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: clamp(14px, 2vh, 24px) clamp(18px, 5vw, 44px) clamp(20px, 4vh, 48px);
+  }
+  .full-set-head {
+    font-weight: 900;
+    font-size: clamp(28px, min(7vh, 10vw), 88px);
+    letter-spacing: -0.024em;
+    text-transform: uppercase;
+    color: var(--fg);
+    padding-top: clamp(14px, 2vh, 24px);
+    padding-bottom: clamp(6px, 1vh, 12px);
+    border-bottom: 1px solid var(--dim-2);
+    margin-bottom: clamp(14px, 2vh, 22px);
+  }
+  .full-mini {
+    padding-top: clamp(14px, 2vh, 22px);
+    padding-bottom: clamp(6px, 1vh, 10px);
+    display: flex; align-items: baseline; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .full-mini .kicker {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(9px, 1.3vh, 11px);
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .full-mini .name {
+    font-weight: 900;
+    font-size: clamp(15px, 2.2vh, 22px);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mini-color, var(--accent));
+    text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent);
+  }
+  .full-songs { list-style: none; padding: 0; margin: 0; }
+  .full-songs li {
+    font-weight: 800;
+    font-size: clamp(14px, 2vh, 20px);
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .full-songs li .num {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(10px, 1.4vh, 13px);
+    color: var(--mini-color, var(--dim));
+    min-width: 2em;
+    flex-shrink: 0;
+  }
+  .full-break {
+    text-align: center;
+    padding: clamp(24px, 4vh, 42px) 0 clamp(12px, 2vh, 22px);
+    font-weight: 900;
+    font-size: clamp(14px, 2vh, 20px);
+    letter-spacing: 0.42em;
+    color: var(--dim);
+  }
+
+  /* ─── BOTTOM BAR ─── */
   .bot {
     padding: clamp(6px, 1vh, 10px) clamp(10px, 3vw, 20px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 18px));
     display: flex; align-items: center; justify-content: space-between;
@@ -162,35 +272,79 @@
   }
   .btn.next:active { background: var(--accent); color: #000; }
 
+  /* ─── HOME SCREEN (mode picker) ─── */
+  .home-screen {
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: center; align-items: stretch;
+    padding: clamp(20px, 4vh, 44px) clamp(18px, 5vw, 44px);
+    text-align: center;
+    gap: clamp(14px, 2.4vh, 24px);
+  }
+  .home-brand {
+    font-weight: 900;
+    font-size: clamp(30px, min(6vh, 8vw), 76px);
+    letter-spacing: -0.030em;
+    line-height: 0.92;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .home-sub {
+    font-weight: 700;
+    font-size: clamp(11px, 1.6vh, 16px);
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .home-accent {
+    color: var(--accent);
+    text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 60%, transparent);
+    font-weight: 900;
+    font-size: clamp(20px, min(3.8vh, 6vw), 44px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 0 clamp(10px, 2vh, 22px);
+  }
+  .modes {
+    display: flex; flex-direction: column; gap: clamp(10px, 1.6vh, 16px);
+    margin-top: clamp(4px, 1.4vh, 14px);
+  }
+  .mode {
+    -webkit-appearance: none; appearance: none;
+    background: rgba(244,237,225,0.08);
+    color: var(--fg);
+    border: 1.5px solid rgba(244,237,225,0.28);
+    border-radius: 22px;
+    padding: clamp(14px, 2.4vh, 22px) clamp(16px, 4vw, 28px);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    cursor: pointer;
+    text-align: left;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+    -webkit-user-select: none; user-select: none;
+    transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .mode:active {
+    transform: scale(0.98);
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    border-color: var(--accent);
+  }
+  .mode .m-title {
+    font-weight: 900;
+    font-size: clamp(16px, 2.4vh, 22px);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg);
+  }
+  .mode .m-desc {
+    font-weight: 500;
+    font-size: clamp(11px, 1.5vh, 14px);
+    color: var(--dim);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+
   /* ─── COVER / BREAK / END ─── */
   .cover, .break, .end {
     text-align: center;
     justify-content: center;
     padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px);
-  }
-  .cover .brand, .end .brand {
-    font-size: clamp(40px, min(10vh, 15vw), 130px);
-    font-weight: 900;
-    letter-spacing: -0.028em;
-    line-height: 0.92;
-    text-transform: uppercase;
-  }
-  .cover .sub, .end .sub {
-    font-size: clamp(11px, 1.7vh, 18px);
-    font-weight: 700;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--dim);
-    padding-top: clamp(12px, 2.2vh, 22px);
-  }
-  .cover .accent {
-    color: var(--accent);
-    text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
-    padding-top: clamp(20px, 4vh, 40px);
-    font-size: clamp(20px, min(3.8vh, 6vw), 44px);
-    font-weight: 900;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
   }
   .break .banner {
     font-size: clamp(52px, min(14vh, 20vw), 200px);
@@ -207,6 +361,28 @@
     text-transform: uppercase;
     font-weight: 700;
     line-height: 1.5;
+  }
+  .end .brand {
+    font-size: clamp(40px, min(10vh, 15vw), 130px);
+    font-weight: 900;
+    letter-spacing: -0.028em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+  .end .sub {
+    font-size: clamp(11px, 1.7vh, 18px);
+    font-weight: 700;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--dim);
+    padding-top: clamp(12px, 2.2vh, 22px);
+  }
+  .end .accent {
+    color: var(--accent);
+    text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
+    padding-top: clamp(20px, 4vh, 40px);
+    font-size: clamp(20px, min(3.8vh, 6vw), 44px);
+    font-weight: 900;
+    letter-spacing: 0.06em; text-transform: uppercase;
   }
 
   /* Tap zones */
@@ -230,10 +406,8 @@
   }
   .toast.show { opacity: 1; }
 
-  /* ─── RESPONSIVE ─── */
-  /* iPhone landscape — very short, compact everything */
+  /* ─── RESPONSIVE ADJUSTMENTS ─── */
   @media (orientation: landscape) and (max-height: 500px) {
-    .top { padding: 6px 18px 3px; }
     .body { padding: 6px 28px; }
     .label { padding-bottom: 6px; margin-bottom: 8px; }
     .label .kicker { font-size: 8px; letter-spacing: 0.24em; }
@@ -243,19 +417,16 @@
     .song .num { font-size: 10px; padding-top: 0.5em; }
     .bot { padding: 3px 14px calc(env(safe-area-inset-bottom) + 6px); }
     .btn { padding: 7px 16px; font-size: 10px; }
+    .single-body .title { font-size: min(14vh, 96px); }
+    .single-body .num { font-size: min(18vh, 120px); }
   }
-
-  /* iPad landscape — bigger, roomier */
   @media (orientation: landscape) and (min-width: 900px) {
     .song { font-size: min(10vh, 118px); }
     .label .name { font-size: 26px; }
-    .label .kicker { font-size: 13px; }
+    .single-body .title { font-size: min(16vh, 220px); }
   }
-
-  /* iPhone portrait — extra safety on very narrow screens */
   @media (max-width: 420px) {
     .song { font-size: min(6vh, 7vw); }
-    .song .num { min-width: 1.4em; }
     .btn { padding: 10px 18px; font-size: 11px; letter-spacing: 0.16em; }
     .label .name { letter-spacing: 0.14em; }
   }
@@ -269,11 +440,13 @@
 <div class="toast" id="toast">Screen locked on</div>
 
 <script>
+// Neon tie-dye colors — one per mini-set
 const COLORS = [
   '#ff2e6e','#ff8a2e','#ffd93d','#a8e063','#4ecdc4',
   '#4a90e2','#9b59d0','#ff2eae','#ff6b6b','#ffa04d','#7dff5c'
 ];
 
+// Setlist as flat sequence — mini-sets, break, cover, end
 const setlist = [
   { type: 'cover' },
   { kicker: 'Set 1 · Mini-Set 1', name: 'Warm the Room',
@@ -302,87 +475,135 @@ const setlist = [
   { type: 'end' },
 ];
 
+// Mini-set indices (skip cover/break/end)
 const miniIdxs = setlist.map((s,i) => s.type ? -1 : i).filter(i => i >= 0);
-const total = miniIdxs.length;
-let cur = 0;
+const totalMini = miniIdxs.length;
+
+// Flatten all songs into one array for single-song mode
+// Each entry: { title, miniIdx, songIdx, kicker, name, color }
+const singleSongs = [];
+miniIdxs.forEach((idx, mIdx) => {
+  const s = setlist[idx];
+  s.songs.forEach((title, sIdx) => {
+    singleSongs.push({
+      title, miniIdx: mIdx, songIdx: sIdx, kicker: s.kicker, name: s.name, color: COLORS[mIdx]
+    });
+  });
+});
+const totalSongs = singleSongs.length;
+
+// State
+let mode = 'home';   // 'home' | 'mini' | 'single' | 'full'
+let cur = 0;         // index within current mode
+
 const stage = document.getElementById('stage');
 const toast = document.getElementById('toast');
 
-function colorFor(index) {
-  const s = setlist[index];
-  if (s.type === 'cover') return COLORS[0];
-  if (s.type === 'end') return COLORS[COLORS.length - 1];
-  if (s.type === 'break') {
-    const nextMini = miniIdxs.find(i => i > index);
-    return nextMini != null ? COLORS[miniIdxs.indexOf(nextMini)] : COLORS[0];
-  }
-  return COLORS[miniIdxs.indexOf(index)];
+// ═════════ RENDER ═════════
+
+function goHome() {
+  mode = 'home';
+  cur = 0;
+  document.documentElement.style.setProperty('--accent', COLORS[0]);
+  stage.innerHTML = `
+    <div class="home-screen">
+      <div class="home-brand">Every<br>Second<br>Tuesday</div>
+      <div class="home-accent">Ben &amp; Krista</div>
+      <div class="home-sub">July 11, 2026 · 8 Humewood Dr · Toronto</div>
+      <div class="modes">
+        <button class="mode" data-mode="mini" type="button">
+          <span class="m-title">Mini-Set Mode</span>
+          <span class="m-desc">Swipe through 11 mini-sets. Neon color per set. Recommended for stage.</span>
+        </button>
+        <button class="mode" data-mode="single" type="button">
+          <span class="m-title">Single Song Mode</span>
+          <span class="m-desc">One song per screen. Giant type. 41 songs in order.</span>
+        </button>
+        <button class="mode" data-mode="full" type="button">
+          <span class="m-title">Full Set List</span>
+          <span class="m-desc">Scroll everything. Both sets, all 41 songs at once.</span>
+        </button>
+      </div>
+    </div>`;
 }
 
-function progressBar(activeMini) {
+function topBar(dotIdx, dotTotal, posText, showHome = true) {
   const dots = [];
-  for (let i = 0; i < total; i++) {
+  for (let i = 0; i < dotTotal; i++) {
     let cls = 'dot';
-    if (activeMini != null && i < activeMini) cls += ' done';
-    if (activeMini != null && i === activeMini) cls += ' active';
+    if (dotIdx != null && i < dotIdx) cls += ' done';
+    if (dotIdx != null && i === dotIdx) cls += ' active';
     dots.push(`<div class="${cls}"></div>`);
   }
-  return `<div class="progress">${dots.join('')}</div>`;
+  return `
+    <div class="top">
+      ${showHome ? '<button class="home-btn" data-home="1" type="button">‹ Home</button>' : ''}
+      <div class="progress">${dots.join('')}</div>
+      ${posText ? `<div class="pos">${posText}</div>` : ''}
+    </div>`;
 }
 
-function render(i) {
+function bottomBar(prevOpacity = 1, nextLabel = 'Next ›') {
+  const prevStyle = prevOpacity < 1 ? ' style="opacity:0.35"' : '';
+  return `
+    <div class="bot">
+      <button class="btn prev" data-nav="prev" type="button"${prevStyle}>‹ Prev</button>
+      <button class="btn next" data-nav="next" type="button">${nextLabel}</button>
+    </div>`;
+}
+
+function renderMini(i) {
   const s = setlist[i];
-  document.documentElement.style.setProperty('--accent', colorFor(i));
+  // Compute color
+  let accent = COLORS[0];
+  if (s.type === 'end') accent = COLORS[COLORS.length - 1];
+  else if (s.type === 'break') {
+    const next = miniIdxs.find(x => x > i);
+    accent = next != null ? COLORS[miniIdxs.indexOf(next)] : COLORS[0];
+  } else if (!s.type) accent = COLORS[miniIdxs.indexOf(i)];
+  document.documentElement.style.setProperty('--accent', accent);
+
   if (s.type === 'cover') {
     stage.innerHTML = `
+      ${topBar(null, 0, '', true)}
       <div class="body cover">
-        <div class="brand">Every<br>Second<br>Tuesday</div>
-        <div class="accent">Ben &amp; Krista</div>
-        <div class="sub">July 11, 2026 · 8 Humewood Dr · Toronto</div>
+        <div class="home-brand" style="font-size:clamp(40px,min(10vh,15vw),130px)">Every<br>Second<br>Tuesday</div>
+        <div class="home-accent">Ben &amp; Krista</div>
+        <div class="home-sub">July 11, 2026 · 8 Humewood Dr · Toronto</div>
       </div>
-      <div class="bot">
-        <button class="btn prev" data-nav="prev" type="button" style="opacity:0.35">‹ Prev</button>
-        <button class="btn next" data-nav="next" type="button">Start ›</button>
-      </div>`;
+      ${bottomBar(0.35, 'Start ›')}`;
     return;
   }
   if (s.type === 'break') {
     stage.innerHTML = `
+      ${topBar(null, 0, '', true)}
       <div class="body break">
         <div class="banner">BREAK</div>
         <div class="sub">Twenty minutes.<br>Water. Tuning. Come back hot.</div>
       </div>
-      <div class="bot">
-        <button class="btn prev" data-nav="prev" type="button">‹ Prev</button>
-        <button class="btn next" data-nav="next" type="button">Set Two ›</button>
-      </div>`;
+      ${bottomBar(1, 'Set Two ›')}`;
     return;
   }
   if (s.type === 'end') {
     stage.innerHTML = `
+      ${topBar(null, 0, '', true)}
       <div class="body end">
         <div class="brand">Thank you.</div>
         <div class="sub">Ben &amp; Krista · 07.11.2026</div>
         <div class="accent">EST</div>
       </div>
-      <div class="bot">
-        <button class="btn prev" data-nav="prev" type="button">‹ Prev</button>
-        <button class="btn next" data-nav="next" type="button" style="opacity:0.35">Next ›</button>
-      </div>`;
+      ${bottomBar(1, 'Next ›')}`;
     return;
   }
   const miniIdx = miniIdxs.indexOf(i);
-  const posText = `${String(miniIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+  const posText = `${String(miniIdx + 1).padStart(2, '0')} / ${String(totalMini).padStart(2, '0')}`;
   const songsHTML = s.songs.map((title, idx) => `
     <li class="song">
       <span class="num">${String(idx + 1).padStart(2, '0')}</span>
       <span class="title">${title}</span>
     </li>`).join('');
   stage.innerHTML = `
-    <div class="top">
-      ${progressBar(miniIdx)}
-      <div class="pos">${posText}</div>
-    </div>
+    ${topBar(miniIdx, totalMini, posText, true)}
     <div class="body">
       <div class="label">
         <span class="kicker">${s.kicker}</span>
@@ -390,24 +611,93 @@ function render(i) {
       </div>
       <ul class="songs">${songsHTML}</ul>
     </div>
-    <div class="bot">
-      <button class="btn prev" data-nav="prev" type="button">‹ Prev</button>
-      <button class="btn next" data-nav="next" type="button">Next ›</button>
+    ${bottomBar()}`;
+}
+
+function renderSingle(i) {
+  const s = singleSongs[i];
+  document.documentElement.style.setProperty('--accent', s.color);
+  const posText = `${String(i + 1).padStart(2, '0')} / ${String(totalSongs).padStart(2, '0')}`;
+  stage.innerHTML = `
+    ${topBar(s.miniIdx, totalMini, posText, true)}
+    <div class="single-body">
+      <div class="kicker">${s.kicker} · ${s.name}</div>
+      <div class="num">${String(s.songIdx + 1).padStart(2, '0')}</div>
+      <div class="title">${s.title}</div>
+    </div>
+    ${bottomBar(i === 0 ? 0.35 : 1, i === totalSongs - 1 ? 'End ›' : 'Next ›')}`;
+}
+
+function renderFull() {
+  document.documentElement.style.setProperty('--accent', COLORS[0]);
+  let html = '';
+  let inSet2 = false;
+  html += `<div class="top">
+    <button class="home-btn" data-home="1" type="button">‹ Home</button>
+    <div style="flex:1"></div>
+    <div class="pos">41 Songs</div>
+  </div>`;
+  html += `<div class="full-body">`;
+  html += `<div class="full-set-head">Set One</div>`;
+  miniIdxs.forEach((idx, mIdx) => {
+    const s = setlist[idx];
+    // Detect break — if this mini is Set 2 Mini-Set 1 and we haven't printed Set Two head
+    if (!inSet2 && s.kicker.startsWith('Set 2')) {
+      html += `<div class="full-break">— BREAK —</div>`;
+      html += `<div class="full-set-head">Set Two</div>`;
+      inSet2 = true;
+    }
+    const color = COLORS[mIdx];
+    html += `<div class="full-mini" style="--mini-color:${color}">
+      <span class="kicker">${s.kicker}</span>
+      <span class="name">${s.name}</span>
     </div>`;
+    html += `<ul class="full-songs" style="--mini-color:${color}">`;
+    s.songs.forEach((title, sIdx) => {
+      html += `<li><span class="num">${String(sIdx + 1).padStart(2, '0')}</span>${title}</li>`;
+    });
+    html += `</ul>`;
+  });
+  html += `</div>`;
+  stage.innerHTML = html;
+}
+
+// ═════════ NAVIGATION ═════════
+
+function render() {
+  if (mode === 'home') return goHome();
+  if (mode === 'mini') return renderMini(cur);
+  if (mode === 'single') return renderSingle(cur);
+  if (mode === 'full') return renderFull();
 }
 
 function go(delta) {
-  cur = Math.max(0, Math.min(setlist.length - 1, cur + delta));
-  render(cur);
+  if (mode === 'home' || mode === 'full') return;
+  if (mode === 'mini') {
+    cur = Math.max(0, Math.min(setlist.length - 1, cur + delta));
+  } else if (mode === 'single') {
+    cur = Math.max(0, Math.min(totalSongs - 1, cur + delta));
+  }
+  render();
 }
 
+function setMode(m) {
+  mode = m;
+  cur = 0;
+  render();
+}
+
+// Event delegation for all buttons/nav
 document.addEventListener('click', e => {
+  const homeBtn = e.target.closest('[data-home]');
+  if (homeBtn) { e.stopPropagation(); goHome(); return; }
+  const modeBtn = e.target.closest('[data-mode]');
+  if (modeBtn) { e.stopPropagation(); setMode(modeBtn.dataset.mode); return; }
   const nav = e.target.closest('[data-nav]');
-  if (!nav) return;
-  e.stopPropagation();
-  go(nav.dataset.nav === 'next' ? 1 : -1);
+  if (nav) { e.stopPropagation(); go(nav.dataset.nav === 'next' ? 1 : -1); return; }
 });
 
+// Swipe (mini + single modes)
 let sx = 0, sy = 0, st = 0;
 document.addEventListener('touchstart', e => {
   const t = e.changedTouches[0];
@@ -424,10 +714,11 @@ document.addEventListener('touchend', e => {
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') go(1);
   if (e.key === 'ArrowLeft'  || e.key === 'PageUp') go(-1);
-  if (e.key === 'Home') { cur = 0; render(cur); }
-  if (e.key === 'End')  { cur = setlist.length - 1; render(cur); }
+  if (e.key === 'Escape' || e.key === 'h' || e.key === 'H') goHome();
+  if (e.key === 'Home') { cur = 0; render(); }
 });
 
+// Wake Lock
 let wakeLock = null;
 async function requestWakeLock() {
   try {
@@ -448,7 +739,7 @@ document.addEventListener('visibilitychange', () => {
 document.addEventListener('click', requestWakeLock, { once: true });
 document.addEventListener('touchstart', requestWakeLock, { once: true });
 
-render(cur);
+render();
 </script>
 
 </body>
