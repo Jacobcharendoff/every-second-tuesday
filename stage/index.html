@@ -56,9 +56,7 @@
     cursor: pointer;
     flex-shrink: 0;
     white-space: nowrap;
-    -webkit-user-select: none; user-select: none;
-    z-index: 20;
-    position: relative;
+    z-index: 20; position: relative;
   }
   .home-btn:active { transform: scale(0.96); background: var(--accent); border-color: var(--accent); color: #000; }
 
@@ -81,7 +79,7 @@
     flex-shrink: 0;
   }
 
-  /* ─── BODY ─── */
+  /* ─── BODY (mini-set mode) ─── */
   .body {
     flex: 1; min-height: 0;
     display: flex; flex-direction: column; justify-content: center;
@@ -110,7 +108,6 @@
     padding-top: 3px;
     display: block;
   }
-
   .songs {
     list-style: none;
     display: flex; flex-direction: column;
@@ -139,40 +136,80 @@
   }
   .song .title { flex: 1; min-width: 0; overflow-wrap: break-word; }
 
-  /* Single-song mode — one giant song per screen */
-  .single-body {
+  /* ─── SINGLE-SET BODY (scrollable list of all songs in a set) ─── */
+  .set-body {
     flex: 1; min-height: 0;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center;
-    padding: clamp(16px, 3vh, 40px) clamp(16px, 5vw, 44px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: clamp(12px, 2vh, 22px) clamp(16px, 4.5vw, 44px) clamp(16px, 3vh, 32px);
   }
-  .single-body .kicker {
+  .set-head {
+    padding-bottom: clamp(10px, 2vh, 20px);
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: clamp(14px, 2.4vh, 24px);
+  }
+  .set-head .kicker {
     font-family: "SF Mono", ui-monospace, monospace;
     font-weight: 700;
-    font-size: clamp(10px, 1.6vh, 15px);
+    font-size: clamp(10px, 1.5vh, 13px);
     letter-spacing: 0.30em; text-transform: uppercase;
     color: var(--dim);
-    padding-bottom: clamp(20px, 3.5vh, 40px);
+    display: block;
   }
-  .single-body .title {
+  .set-head .name {
     font-weight: 900;
-    font-size: clamp(38px, min(12vh, 14vw), 200px);
-    line-height: 1.0;
-    letter-spacing: -0.032em;
+    font-size: clamp(36px, min(9vh, 12vw), 108px);
+    letter-spacing: -0.028em; text-transform: uppercase;
     color: var(--fg);
-    text-transform: uppercase;
+    padding-top: 4px;
   }
-  .single-body .num {
-    font-weight: 900;
-    font-size: clamp(52px, min(16vh, 20vw), 260px);
+  .set-head .count {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(10px, 1.5vh, 13px);
+    letter-spacing: 0.30em; text-transform: uppercase;
     color: var(--accent);
-    letter-spacing: -0.048em;
-    line-height: 0.9;
-    padding-bottom: clamp(14px, 3vh, 32px);
-    text-shadow: 0 0 42px color-mix(in srgb, var(--accent) 55%, transparent);
+    padding-top: 6px;
+  }
+  .set-mini-header {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    padding: clamp(10px, 1.8vh, 18px) 0 clamp(4px, 0.6vh, 8px);
+  }
+  .set-mini-header .kicker {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(9px, 1.3vh, 11px);
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .set-mini-header .name {
+    font-weight: 900;
+    font-size: clamp(15px, 2.2vh, 22px);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--mini-color, var(--accent));
+    text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent);
+  }
+  .set-songlist { list-style: none; padding: 0; margin: 0; }
+  .set-songlist li {
+    font-weight: 800;
+    font-size: clamp(15px, min(2.4vh, 4.6vw), 26px);
+    line-height: 1.42;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 2px 0;
+  }
+  .set-songlist li .num {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(11px, 1.5vh, 14px);
+    color: var(--mini-color, var(--accent));
+    min-width: 2.2em;
+    flex-shrink: 0;
   }
 
-  /* Full-set mode — scrollable full listing */
+  /* ─── FULL SETLIST body (both sets, all mini-sets) ─── */
   .full-body {
     flex: 1; min-height: 0;
     overflow-y: auto;
@@ -256,10 +293,7 @@
     font-weight: 900;
     letter-spacing: 0.18em; text-transform: uppercase;
     cursor: pointer;
-    z-index: 20;
-    position: relative;
-    -webkit-user-select: none; user-select: none;
-    -webkit-touch-callout: none;
+    z-index: 20; position: relative;
     transition: transform 0.06s ease, background 0.15s ease, box-shadow 0.2s ease;
     white-space: nowrap;
   }
@@ -267,7 +301,6 @@
   .btn.next {
     background: color-mix(in srgb, var(--accent) 20%, transparent);
     border-color: var(--accent);
-    color: var(--fg);
     box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
   }
   .btn.next:active { background: var(--accent); color: #000; }
@@ -286,7 +319,6 @@
     letter-spacing: -0.030em;
     line-height: 0.92;
     text-transform: uppercase;
-    color: var(--fg);
   }
   .home-sub {
     font-weight: 700;
@@ -314,11 +346,9 @@
     border: 1.5px solid rgba(244,237,225,0.28);
     border-radius: 22px;
     padding: clamp(14px, 2.4vh, 22px) clamp(16px, 4vw, 28px);
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     cursor: pointer;
     text-align: left;
     display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
-    -webkit-user-select: none; user-select: none;
     transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease;
   }
   .mode:active {
@@ -330,18 +360,16 @@
     font-weight: 900;
     font-size: clamp(16px, 2.4vh, 22px);
     letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--fg);
   }
   .mode .m-desc {
     font-weight: 500;
     font-size: clamp(11px, 1.5vh, 14px);
     color: var(--dim);
-    letter-spacing: 0.02em;
     line-height: 1.4;
   }
 
-  /* ─── COVER / BREAK / END ─── */
-  .cover, .break, .end {
+  /* ─── COVER / BREAK / END slides ─── */
+  .body.cover, .body.break, .body.end {
     text-align: center;
     justify-content: center;
     padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px);
@@ -406,7 +434,7 @@
   }
   .toast.show { opacity: 1; }
 
-  /* ─── RESPONSIVE ADJUSTMENTS ─── */
+  /* Responsive */
   @media (orientation: landscape) and (max-height: 500px) {
     .body { padding: 6px 28px; }
     .label { padding-bottom: 6px; margin-bottom: 8px; }
@@ -417,13 +445,10 @@
     .song .num { font-size: 10px; padding-top: 0.5em; }
     .bot { padding: 3px 14px calc(env(safe-area-inset-bottom) + 6px); }
     .btn { padding: 7px 16px; font-size: 10px; }
-    .single-body .title { font-size: min(14vh, 96px); }
-    .single-body .num { font-size: min(18vh, 120px); }
   }
   @media (orientation: landscape) and (min-width: 900px) {
     .song { font-size: min(10vh, 118px); }
     .label .name { font-size: 26px; }
-    .single-body .title { font-size: min(16vh, 220px); }
   }
   @media (max-width: 420px) {
     .song { font-size: min(6vh, 7vw); }
@@ -440,13 +465,11 @@
 <div class="toast" id="toast">Screen locked on</div>
 
 <script>
-// Neon tie-dye colors — one per mini-set
 const COLORS = [
   '#ff2e6e','#ff8a2e','#ffd93d','#a8e063','#4ecdc4',
   '#4a90e2','#9b59d0','#ff2eae','#ff6b6b','#ffa04d','#7dff5c'
 ];
 
-// Setlist as flat sequence — mini-sets, break, cover, end
 const setlist = [
   { type: 'cover' },
   { kicker: 'Set 1 · Mini-Set 1', name: 'Warm the Room',
@@ -475,27 +498,20 @@ const setlist = [
   { type: 'end' },
 ];
 
-// Mini-set indices (skip cover/break/end)
 const miniIdxs = setlist.map((s,i) => s.type ? -1 : i).filter(i => i >= 0);
 const totalMini = miniIdxs.length;
 
-// Flatten all songs into one array for single-song mode
-// Each entry: { title, miniIdx, songIdx, kicker, name, color }
-const singleSongs = [];
-miniIdxs.forEach((idx, mIdx) => {
-  const s = setlist[idx];
-  s.songs.forEach((title, sIdx) => {
-    singleSongs.push({
-      title, miniIdx: mIdx, songIdx: sIdx, kicker: s.kicker, name: s.name, color: COLORS[mIdx]
-    });
-  });
-});
-const totalSongs = singleSongs.length;
+// Group mini-sets by set number for Single Set mode
+const set1Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 1'));
+const set2Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 2'));
+const setPages = [
+  { name: 'Set One', minis: set1Minis, color: COLORS[2] },
+  { name: 'Set Two', minis: set2Minis, color: COLORS[7] },
+];
 
-// State
-let mode = 'home';   // 'home' | 'mini' | 'single' | 'full'
-let cur = 0;         // index within current mode
-
+// State: mode + cur index within the current mode
+let mode = 'home';   // 'home' | 'mini' | 'set' | 'full'
+let cur = 0;
 const stage = document.getElementById('stage');
 const toast = document.getElementById('toast');
 
@@ -515,19 +531,19 @@ function goHome() {
           <span class="m-title">Mini-Set Mode</span>
           <span class="m-desc">Swipe through 11 mini-sets. Neon color per set. Recommended for stage.</span>
         </button>
-        <button class="mode" data-mode="single" type="button">
-          <span class="m-title">Single Song Mode</span>
-          <span class="m-desc">One song per screen. Giant type. 41 songs in order.</span>
+        <button class="mode" data-mode="set" type="button">
+          <span class="m-title">Single Set Mode</span>
+          <span class="m-desc">Two screens — Set 1 and Set 2. Every song in the set, scrollable.</span>
         </button>
         <button class="mode" data-mode="full" type="button">
-          <span class="m-title">Full Set List</span>
+          <span class="m-title">Full Setlist</span>
           <span class="m-desc">Scroll everything. Both sets, all 41 songs at once.</span>
         </button>
       </div>
     </div>`;
 }
 
-function topBar(dotIdx, dotTotal, posText, showHome = true) {
+function topBar(dotIdx, dotTotal, posText) {
   const dots = [];
   for (let i = 0; i < dotTotal; i++) {
     let cls = 'dot';
@@ -537,24 +553,25 @@ function topBar(dotIdx, dotTotal, posText, showHome = true) {
   }
   return `
     <div class="top">
-      ${showHome ? '<button class="home-btn" data-home="1" type="button">‹ Home</button>' : ''}
+      <button class="home-btn" data-home="1" type="button">‹ Home</button>
       <div class="progress">${dots.join('')}</div>
       ${posText ? `<div class="pos">${posText}</div>` : ''}
     </div>`;
 }
 
-function bottomBar(prevOpacity = 1, nextLabel = 'Next ›') {
+function bottomBar(prevOpacity = 1, nextLabel = 'Next ›', nextOpacity = 1) {
   const prevStyle = prevOpacity < 1 ? ' style="opacity:0.35"' : '';
+  const nextStyle = nextOpacity < 1 ? ' style="opacity:0.35"' : '';
   return `
     <div class="bot">
       <button class="btn prev" data-nav="prev" type="button"${prevStyle}>‹ Prev</button>
-      <button class="btn next" data-nav="next" type="button">${nextLabel}</button>
+      <button class="btn next" data-nav="next" type="button"${nextStyle}>${nextLabel}</button>
     </div>`;
 }
 
+// ─── Mini-Set mode ───
 function renderMini(i) {
   const s = setlist[i];
-  // Compute color
   let accent = COLORS[0];
   if (s.type === 'end') accent = COLORS[COLORS.length - 1];
   else if (s.type === 'break') {
@@ -565,7 +582,7 @@ function renderMini(i) {
 
   if (s.type === 'cover') {
     stage.innerHTML = `
-      ${topBar(null, 0, '', true)}
+      ${topBar(null, 0, '')}
       <div class="body cover">
         <div class="home-brand" style="font-size:clamp(40px,min(10vh,15vw),130px)">Every<br>Second<br>Tuesday</div>
         <div class="home-accent">Ben &amp; Krista</div>
@@ -576,7 +593,7 @@ function renderMini(i) {
   }
   if (s.type === 'break') {
     stage.innerHTML = `
-      ${topBar(null, 0, '', true)}
+      ${topBar(null, 0, '')}
       <div class="body break">
         <div class="banner">BREAK</div>
         <div class="sub">Twenty minutes.<br>Water. Tuning. Come back hot.</div>
@@ -586,13 +603,13 @@ function renderMini(i) {
   }
   if (s.type === 'end') {
     stage.innerHTML = `
-      ${topBar(null, 0, '', true)}
+      ${topBar(null, 0, '')}
       <div class="body end">
         <div class="brand">Thank you.</div>
         <div class="sub">Ben &amp; Krista · 07.11.2026</div>
         <div class="accent">EST</div>
       </div>
-      ${bottomBar(1, 'Next ›')}`;
+      ${bottomBar(1, 'Next ›', 0.35)}`;
     return;
   }
   const miniIdx = miniIdxs.indexOf(i);
@@ -603,7 +620,7 @@ function renderMini(i) {
       <span class="title">${title}</span>
     </li>`).join('');
   stage.innerHTML = `
-    ${topBar(miniIdx, totalMini, posText, true)}
+    ${topBar(miniIdx, totalMini, posText)}
     <div class="body">
       <div class="label">
         <span class="kicker">${s.kicker}</span>
@@ -614,45 +631,83 @@ function renderMini(i) {
     ${bottomBar()}`;
 }
 
-function renderSingle(i) {
-  const s = singleSongs[i];
-  document.documentElement.style.setProperty('--accent', s.color);
-  const posText = `${String(i + 1).padStart(2, '0')} / ${String(totalSongs).padStart(2, '0')}`;
+// ─── Single Set mode ───
+function renderSet(pageIdx) {
+  const page = setPages[pageIdx];
+  document.documentElement.style.setProperty('--accent', page.color);
+  const totalSongs = page.minis.reduce((a, mi) => a + setlist[mi].songs.length, 0);
+  const posText = `${String(pageIdx + 1).padStart(2, '0')} / ${String(setPages.length).padStart(2, '0')}`;
+
+  // Build mini-set sections with their songs
+  let sectionsHTML = '';
+  let songNumber = 1;
+  page.minis.forEach((mi, mIdx) => {
+    const s = setlist[mi];
+    // Get the mini's color (global mini index)
+    const globalMiniIdx = miniIdxs.indexOf(mi);
+    const miniColor = COLORS[globalMiniIdx];
+    sectionsHTML += `<div class="set-mini-header" style="--mini-color:${miniColor}">
+      <span class="kicker">${s.kicker}</span>
+      <span class="name">${s.name}</span>
+    </div>`;
+    sectionsHTML += `<ul class="set-songlist" style="--mini-color:${miniColor}">`;
+    s.songs.forEach(title => {
+      sectionsHTML += `<li><span class="num">${String(songNumber).padStart(2, '0')}</span>${title}</li>`;
+      songNumber++;
+    });
+    sectionsHTML += `</ul>`;
+  });
+
+  // Progress dots for the 2 set pages
+  const dots = [];
+  for (let i = 0; i < setPages.length; i++) {
+    let cls = 'dot';
+    if (i < pageIdx) cls += ' done';
+    if (i === pageIdx) cls += ' active';
+    dots.push(`<div class="${cls}"></div>`);
+  }
   stage.innerHTML = `
-    ${topBar(s.miniIdx, totalMini, posText, true)}
-    <div class="single-body">
-      <div class="kicker">${s.kicker} · ${s.name}</div>
-      <div class="num">${String(s.songIdx + 1).padStart(2, '0')}</div>
-      <div class="title">${s.title}</div>
+    <div class="top">
+      <button class="home-btn" data-home="1" type="button">‹ Home</button>
+      <div class="progress">${dots.join('')}</div>
+      <div class="pos">${posText}</div>
     </div>
-    ${bottomBar(i === 0 ? 0.35 : 1, i === totalSongs - 1 ? 'End ›' : 'Next ›')}`;
+    <div class="set-body">
+      <div class="set-head">
+        <span class="kicker">Every Second Tuesday · Ben &amp; Krista</span>
+        <div class="name">${page.name}</div>
+        <div class="count">${totalSongs} songs · ${page.minis.length} mini-sets</div>
+      </div>
+      ${sectionsHTML}
+    </div>
+    ${bottomBar(pageIdx === 0 ? 0.35 : 1, pageIdx === setPages.length - 1 ? 'End ›' : 'Set Two ›', pageIdx === setPages.length - 1 ? 0.35 : 1)}`;
 }
 
+// ─── Full Setlist ───
 function renderFull() {
   document.documentElement.style.setProperty('--accent', COLORS[0]);
-  let html = '';
+  let html = `
+    <div class="top">
+      <button class="home-btn" data-home="1" type="button">‹ Home</button>
+      <div style="flex:1"></div>
+      <div class="pos">41 Songs</div>
+    </div>
+    <div class="full-body">
+      <div class="full-set-head">Set One</div>`;
   let inSet2 = false;
-  html += `<div class="top">
-    <button class="home-btn" data-home="1" type="button">‹ Home</button>
-    <div style="flex:1"></div>
-    <div class="pos">41 Songs</div>
-  </div>`;
-  html += `<div class="full-body">`;
-  html += `<div class="full-set-head">Set One</div>`;
   miniIdxs.forEach((idx, mIdx) => {
     const s = setlist[idx];
-    // Detect break — if this mini is Set 2 Mini-Set 1 and we haven't printed Set Two head
     if (!inSet2 && s.kicker.startsWith('Set 2')) {
-      html += `<div class="full-break">— BREAK —</div>`;
-      html += `<div class="full-set-head">Set Two</div>`;
+      html += `<div class="full-break">— BREAK —</div>
+        <div class="full-set-head">Set Two</div>`;
       inSet2 = true;
     }
     const color = COLORS[mIdx];
     html += `<div class="full-mini" style="--mini-color:${color}">
       <span class="kicker">${s.kicker}</span>
       <span class="name">${s.name}</span>
-    </div>`;
-    html += `<ul class="full-songs" style="--mini-color:${color}">`;
+    </div>
+    <ul class="full-songs" style="--mini-color:${color}">`;
     s.songs.forEach((title, sIdx) => {
       html += `<li><span class="num">${String(sIdx + 1).padStart(2, '0')}</span>${title}</li>`;
     });
@@ -667,7 +722,7 @@ function renderFull() {
 function render() {
   if (mode === 'home') return goHome();
   if (mode === 'mini') return renderMini(cur);
-  if (mode === 'single') return renderSingle(cur);
+  if (mode === 'set')  return renderSet(cur);
   if (mode === 'full') return renderFull();
 }
 
@@ -675,8 +730,8 @@ function go(delta) {
   if (mode === 'home' || mode === 'full') return;
   if (mode === 'mini') {
     cur = Math.max(0, Math.min(setlist.length - 1, cur + delta));
-  } else if (mode === 'single') {
-    cur = Math.max(0, Math.min(totalSongs - 1, cur + delta));
+  } else if (mode === 'set') {
+    cur = Math.max(0, Math.min(setPages.length - 1, cur + delta));
   }
   render();
 }
@@ -687,7 +742,6 @@ function setMode(m) {
   render();
 }
 
-// Event delegation for all buttons/nav
 document.addEventListener('click', e => {
   const homeBtn = e.target.closest('[data-home]');
   if (homeBtn) { e.stopPropagation(); goHome(); return; }
@@ -697,7 +751,6 @@ document.addEventListener('click', e => {
   if (nav) { e.stopPropagation(); go(nav.dataset.nav === 'next' ? 1 : -1); return; }
 });
 
-// Swipe (mini + single modes)
 let sx = 0, sy = 0, st = 0;
 document.addEventListener('touchstart', e => {
   const t = e.changedTouches[0];
@@ -715,10 +768,8 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') go(1);
   if (e.key === 'ArrowLeft'  || e.key === 'PageUp') go(-1);
   if (e.key === 'Escape' || e.key === 'h' || e.key === 'H') goHome();
-  if (e.key === 'Home') { cur = 0; render(); }
 });
 
-// Wake Lock
 let wakeLock = null;
 async function requestWakeLock() {
   try {
