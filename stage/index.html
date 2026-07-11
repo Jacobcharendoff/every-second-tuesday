@@ -24,7 +24,6 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
     overflow: hidden;
     overscroll-behavior: none;
-    touch-action: none;
     -webkit-user-select: none;
     user-select: none;
   }
@@ -37,12 +36,13 @@
     transition: background-color 0.35s ease;
   }
 
+  /* ─── TOP ─── */
   .top {
-    padding: clamp(10px, 2.2vh, 22px) clamp(16px, 3.5vw, 32px) clamp(6px, 1.4vh, 12px);
-    display: flex; align-items: center; gap: clamp(10px, 2vw, 20px);
+    padding: clamp(8px, 1.8vh, 20px) clamp(14px, 4vw, 32px) clamp(4px, 1vh, 10px);
+    display: flex; align-items: center; gap: clamp(8px, 2vw, 18px);
     flex-shrink: 0;
   }
-  .progress { display: flex; gap: clamp(4px, 0.7vw, 6px); flex: 1; }
+  .progress { display: flex; gap: 4px; flex: 1; min-width: 0; }
   .progress .dot {
     flex: 1; height: 4px;
     background: var(--dim-2);
@@ -53,40 +53,64 @@
   .progress .dot.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
   .pos {
     font-family: "SF Mono", ui-monospace, monospace;
-    font-size: clamp(11px, 1.6vh, 14px);
+    font-size: clamp(10px, 1.4vh, 13px);
     font-weight: 700;
     color: var(--dim);
-    letter-spacing: 0.20em;
+    letter-spacing: 0.18em;
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
+  /* ─── BODY ─── */
   .body {
-    flex: 1; min-height: 0; overflow: hidden;
+    flex: 1; min-height: 0;
     display: flex; flex-direction: column; justify-content: center;
-    padding: clamp(10px, 2vh, 22px) clamp(20px, 4vw, 44px);
+    padding: clamp(10px, 2vh, 22px) clamp(16px, 4.5vw, 44px);
+    overflow: hidden;
   }
   .label {
-    font-weight: 900;
-    font-size: clamp(13px, 2.1vh, 20px);
-    letter-spacing: 0.32em; text-transform: uppercase;
-    color: var(--accent);
-    text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 55%, transparent);
-    padding-bottom: clamp(10px, 1.8vh, 16px);
+    padding-bottom: clamp(8px, 1.4vh, 14px);
     border-bottom: 1px solid var(--dim-2);
-    margin-bottom: clamp(16px, 3vh, 32px);
+    margin-bottom: clamp(12px, 2.4vh, 26px);
   }
-  .songs { list-style: none; display: flex; flex-direction: column; gap: clamp(8px, 2.4vh, 26px); }
+  .label .kicker {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: clamp(9px, 1.4vh, 12px);
+    letter-spacing: 0.30em; text-transform: uppercase;
+    color: var(--dim);
+    display: block;
+  }
+  .label .name {
+    font-weight: 900;
+    font-size: clamp(15px, 2.4vh, 24px);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent);
+    padding-top: 3px;
+    display: block;
+  }
+
+  .songs {
+    list-style: none;
+    display: flex; flex-direction: column;
+    gap: clamp(4px, 1.6vh, 20px);
+  }
   .song {
     font-weight: 900;
-    font-size: clamp(30px, 8.2vh, 108px);
-    line-height: 0.98;
-    letter-spacing: -0.028em;
+    /* KEY FIX: use narrower of width and height so long titles fit iPhone */
+    font-size: clamp(20px, min(6.4vh, 7.6vw), 96px);
+    line-height: 1.02;
+    letter-spacing: -0.024em;
     color: var(--fg);
-    display: flex; align-items: baseline; gap: clamp(10px, 2vw, 28px);
+    display: flex; align-items: baseline; gap: clamp(8px, 1.6vw, 24px);
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
   }
   .song .num {
     font-family: "SF Mono", ui-monospace, monospace;
-    font-size: clamp(14px, 2.2vh, 26px);
+    font-size: clamp(11px, 1.7vh, 22px);
     font-weight: 700;
     color: var(--accent);
     letter-spacing: 0.02em;
@@ -94,14 +118,20 @@
     min-width: 1.6em;
     text-align: right;
     align-self: flex-start;
-    padding-top: 0.9em;
+    padding-top: 0.55em;
   }
-  .song .title { flex: 1; }
+  .song .title {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
 
+  /* ─── BOTTOM ─── */
   .bot {
-    padding: clamp(6px, 1.2vh, 12px) clamp(12px, 3vw, 22px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 20px));
+    padding: clamp(6px, 1vh, 10px) clamp(10px, 3vw, 20px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 18px));
     display: flex; align-items: center; justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
   .btn {
@@ -110,11 +140,11 @@
     color: var(--fg);
     border: 1.5px solid rgba(244,237,225,0.30);
     border-radius: 999px;
-    padding: clamp(10px, 1.8vh, 16px) clamp(20px, 4vw, 34px);
+    padding: clamp(9px, 1.4vh, 15px) clamp(16px, 4vw, 32px);
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: clamp(13px, 1.9vh, 17px);
+    font-size: clamp(11px, 1.6vh, 16px);
     font-weight: 900;
-    letter-spacing: 0.22em; text-transform: uppercase;
+    letter-spacing: 0.18em; text-transform: uppercase;
     cursor: pointer;
     z-index: 20;
     position: relative;
@@ -125,70 +155,73 @@
   }
   .btn:active { transform: scale(0.96); }
   .btn.next {
-    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
     border-color: var(--accent);
     color: var(--fg);
     box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
   }
   .btn.next:active { background: var(--accent); color: #000; }
 
+  /* ─── COVER / BREAK / END ─── */
   .cover, .break, .end {
     text-align: center;
     justify-content: center;
-    padding: clamp(24px, 5vh, 60px) clamp(20px, 5vw, 44px);
+    padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px);
   }
   .cover .brand, .end .brand {
-    font-size: clamp(44px, 11vh, 130px);
+    font-size: clamp(40px, min(10vh, 15vw), 130px);
     font-weight: 900;
-    letter-spacing: -0.032em;
-    line-height: 0.90;
+    letter-spacing: -0.028em;
+    line-height: 0.92;
     text-transform: uppercase;
   }
   .cover .sub, .end .sub {
-    font-size: clamp(13px, 1.9vh, 20px);
+    font-size: clamp(11px, 1.7vh, 18px);
     font-weight: 700;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--dim);
-    padding-top: clamp(14px, 2.4vh, 24px);
+    padding-top: clamp(12px, 2.2vh, 22px);
   }
   .cover .accent {
     color: var(--accent);
     text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
-    padding-top: clamp(24px, 4.4vh, 44px);
-    font-size: clamp(22px, 4vh, 44px);
+    padding-top: clamp(20px, 4vh, 40px);
+    font-size: clamp(20px, min(3.8vh, 6vw), 44px);
     font-weight: 900;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
   .break .banner {
-    font-size: clamp(58px, 15vh, 200px);
+    font-size: clamp(52px, min(14vh, 20vw), 200px);
     font-weight: 900;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     color: var(--accent);
     text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 55%, transparent);
   }
   .break .sub {
     color: var(--dim);
-    font-size: clamp(14px, 2vh, 24px);
-    padding-top: clamp(18px, 3vh, 32px);
-    letter-spacing: 0.22em;
+    font-size: clamp(12px, 1.8vh, 22px);
+    padding-top: clamp(16px, 2.6vh, 30px);
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     font-weight: 700;
     line-height: 1.5;
   }
 
+  /* Tap zones */
   .tapleft, .tapright { position: fixed; top: 0; bottom: 0; width: 30%; z-index: 10; }
   .tapleft  { left: 0; }
   .tapright { right: 0; }
 
+  /* Toast */
   .toast {
-    position: fixed; bottom: calc(env(safe-area-inset-bottom) + 78px);
+    position: fixed; bottom: calc(env(safe-area-inset-bottom) + 70px);
     left: 50%; transform: translateX(-50%);
     background: rgba(244,237,225,0.12);
     color: var(--fg);
-    padding: 9px 18px; border-radius: 999px;
-    font-size: 11px; font-weight: 800;
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 10px; font-weight: 800;
     letter-spacing: 0.24em; text-transform: uppercase;
     opacity: 0; pointer-events: none;
     transition: opacity 0.3s ease;
@@ -197,22 +230,34 @@
   }
   .toast.show { opacity: 1; }
 
+  /* ─── RESPONSIVE ─── */
+  /* iPhone landscape — very short, compact everything */
   @media (orientation: landscape) and (max-height: 500px) {
-    .top { padding: 8px 20px 4px; }
-    .body { padding: 6px 32px; }
-    .label { font-size: 12px; padding-bottom: 8px; margin-bottom: 10px; }
-    .songs { gap: 4px; }
-    .song { font-size: min(9vh, 60px); }
-    .bot { padding: 4px 16px calc(env(safe-area-inset-bottom) + 8px); }
-    .btn { padding: 8px 20px; font-size: 12px; }
+    .top { padding: 6px 18px 3px; }
+    .body { padding: 6px 28px; }
+    .label { padding-bottom: 6px; margin-bottom: 8px; }
+    .label .kicker { font-size: 8px; letter-spacing: 0.24em; }
+    .label .name { font-size: 12px; letter-spacing: 0.14em; }
+    .songs { gap: 3px; }
+    .song { font-size: min(8vh, 44px); }
+    .song .num { font-size: 10px; padding-top: 0.5em; }
+    .bot { padding: 3px 14px calc(env(safe-area-inset-bottom) + 6px); }
+    .btn { padding: 7px 16px; font-size: 10px; }
   }
+
+  /* iPad landscape — bigger, roomier */
   @media (orientation: landscape) and (min-width: 900px) {
-    .song { font-size: min(11vh, 130px); }
-    .label { font-size: 22px; }
+    .song { font-size: min(10vh, 118px); }
+    .label .name { font-size: 26px; }
+    .label .kicker { font-size: 13px; }
   }
+
+  /* iPhone portrait — extra safety on very narrow screens */
   @media (max-width: 420px) {
-    .song { font-size: min(7.2vh, 52px); }
-    .btn { padding: 12px 22px; font-size: 13px; }
+    .song { font-size: min(6vh, 7vw); }
+    .song .num { min-width: 1.4em; }
+    .btn { padding: 10px 18px; font-size: 11px; letter-spacing: 0.16em; }
+    .label .name { letter-spacing: 0.14em; }
   }
 </style>
 </head>
@@ -231,29 +276,29 @@ const COLORS = [
 
 const setlist = [
   { type: 'cover' },
-  { label: 'Set 1 · Mini-Set 1', name: 'Warm the Room',
-    songs: [['Oh! Darling','The Beatles'],['Johnny B. Goode','Chuck Berry'],['Take Me Out','Franz Ferdinand'],['Song 2','Blur']]},
-  { label: 'Set 1 · Mini-Set 2', name: 'Classic Rock Kick',
-    songs: [['Rock You Like a Hurricane','Scorpions'],['Born to Be Wild','Steppenwolf'],['Paint It Black','Rolling Stones'],['Sweet Emotion','Aerosmith']]},
-  { label: 'Set 1 · Mini-Set 3', name: 'Groove Zone',
-    songs: [['Money','Pink Floyd'],['Shakedown Street','Grateful Dead'],['Funk #49','James Gang'],['War Pigs','Black Sabbath']]},
-  { label: 'Set 1 · Mini-Set 4', name: 'Bar Anthems',
-    songs: [['Break On Through','The Doors'],['All Right Now','Free'],['Watermelon Sugar','Harry Styles'],['Are You Gonna Be My Girl','Jet']]},
-  { label: 'Set 1 · Mini-Set 5', name: 'Set One Closer',
-    songs: [['Sex on Fire','Kings of Leon'],['You Shook Me All Night Long','AC/DC'],['Simply the Best','Tina Turner'],['Don’t Stop Believin’','Journey']]},
+  { kicker: 'Set 1 · Mini-Set 1', name: 'Warm the Room',
+    songs: ['Oh! Darling','Johnny B. Goode','Take Me Out','Song 2']},
+  { kicker: 'Set 1 · Mini-Set 2', name: 'Classic Rock Kick',
+    songs: ['Rock You Like a Hurricane','Born to Be Wild','Paint It Black','Sweet Emotion']},
+  { kicker: 'Set 1 · Mini-Set 3', name: 'Groove Zone',
+    songs: ['Money','Shakedown Street','Funk #49','War Pigs']},
+  { kicker: 'Set 1 · Mini-Set 4', name: 'Bar Anthems',
+    songs: ['Break On Through','All Right Now','Watermelon Sugar','Are You Gonna Be My Girl']},
+  { kicker: 'Set 1 · Mini-Set 5', name: 'Set One Closer',
+    songs: ['Sex on Fire','You Shook Me All Night Long','Simply the Best','Don’t Stop Believin’']},
   { type: 'break' },
-  { label: 'Set 2 · Mini-Set 1', name: 'Pink Floyd Opener',
-    songs: [['Breathe','Pink Floyd'],['Time','Pink Floyd']]},
-  { label: 'Set 2 · Mini-Set 2', name: 'Bang the Room Awake',
-    songs: [['Mr. Brightside','The Killers'],['Somebody Told Me','The Killers'],['Vertigo','U2'],['All the Small Things','Blink-182']]},
-  { label: 'Set 2 · Mini-Set 3', name: 'Modern Rock Peak',
-    songs: [['All Star','Smash Mouth'],['Learn to Fly','Foo Fighters'],['Californication','RHCP'],['Ramblin’ Man','Allman Brothers']]},
-  { label: 'Set 2 · Mini-Set 4', name: 'Groove Breath → Heavy',
-    songs: [['They Love Each Other','Grateful Dead'],['Norwegian Wood','The Beatles'],['I Want You (She’s So Heavy)','The Beatles'],['Rock and Roll','Led Zeppelin']]},
-  { label: 'Set 2 · Mini-Set 5', name: 'Heavy Bridge',
-    songs: [['It’s a Long Way to the Top','AC/DC'],['Burnin’ for You','Blue Öyster Cult'],['Carry On Wayward Son','Kansas']]},
-  { label: 'Set 2 · Mini-Set 6', name: 'The Big Finish',
-    songs: [['Seven Nation Army','White Stripes'],['Livin’ on a Prayer','Bon Jovi'],['Closing Time','Semisonic'],['Wonderwall','Oasis']]},
+  { kicker: 'Set 2 · Mini-Set 1', name: 'Pink Floyd Opener',
+    songs: ['Breathe','Time']},
+  { kicker: 'Set 2 · Mini-Set 2', name: 'Bang the Room Awake',
+    songs: ['Mr. Brightside','Somebody Told Me','Vertigo','All the Small Things']},
+  { kicker: 'Set 2 · Mini-Set 3', name: 'Modern Rock Peak',
+    songs: ['All Star','Learn to Fly','Californication','Ramblin’ Man']},
+  { kicker: 'Set 2 · Mini-Set 4', name: 'Groove Breath → Heavy',
+    songs: ['They Love Each Other','Norwegian Wood','I Want You (She’s So Heavy)','Rock and Roll']},
+  { kicker: 'Set 2 · Mini-Set 5', name: 'Heavy Bridge',
+    songs: ['It’s a Long Way to the Top','Burnin’ for You','Carry On Wayward Son']},
+  { kicker: 'Set 2 · Mini-Set 6', name: 'The Big Finish',
+    songs: ['Seven Nation Army','Livin’ on a Prayer','Closing Time','Wonderwall']},
   { type: 'end' },
 ];
 
@@ -328,10 +373,10 @@ function render(i) {
   }
   const miniIdx = miniIdxs.indexOf(i);
   const posText = `${String(miniIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
-  const songsHTML = s.songs.map((sg, idx) => `
+  const songsHTML = s.songs.map((title, idx) => `
     <li class="song">
       <span class="num">${String(idx + 1).padStart(2, '0')}</span>
-      <span class="title">${sg[0]}</span>
+      <span class="title">${title}</span>
     </li>`).join('');
   stage.innerHTML = `
     <div class="top">
@@ -339,7 +384,10 @@ function render(i) {
       <div class="pos">${posText}</div>
     </div>
     <div class="body">
-      <div class="label">${s.label} · ${s.name}</div>
+      <div class="label">
+        <span class="kicker">${s.kicker}</span>
+        <span class="name">${s.name}</span>
+      </div>
       <ul class="songs">${songsHTML}</ul>
     </div>
     <div class="bot">
