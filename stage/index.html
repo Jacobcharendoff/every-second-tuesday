@@ -28,15 +28,12 @@
     user-select: none;
   }
   @supports (height: 100dvh) { html, body { height: 100dvh; } }
-
   #stage {
     position: fixed; inset: 0;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     display: flex; flex-direction: column;
     transition: background-color 0.35s ease;
   }
-
-  /* ─── TOP BAR ─── */
   .top {
     padding: clamp(8px, 1.8vh, 20px) clamp(14px, 4vw, 32px) clamp(4px, 1vh, 10px);
     display: flex; align-items: center; gap: clamp(8px, 2vw, 18px);
@@ -59,382 +56,64 @@
     z-index: 20; position: relative;
   }
   .home-btn:active { transform: scale(0.96); background: var(--accent); border-color: var(--accent); color: #000; }
-
   .progress { display: flex; gap: 4px; flex: 1; min-width: 0; }
-  .progress .dot {
-    flex: 1; height: 4px;
-    background: var(--dim-2);
-    border-radius: 2px;
-    transition: background 0.25s ease, box-shadow 0.25s ease;
-  }
+  .progress .dot { flex: 1; height: 4px; background: var(--dim-2); border-radius: 2px; transition: background 0.25s ease, box-shadow 0.25s ease; }
   .progress .dot.done { background: rgba(244,237,225,0.55); }
   .progress .dot.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-  .pos {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-size: clamp(10px, 1.4vh, 13px);
-    font-weight: 700;
-    color: var(--dim);
-    letter-spacing: 0.18em;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* ─── BODY (mini-set mode) ─── */
-  .body {
-    flex: 1; min-height: 0;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: clamp(10px, 2vh, 22px) clamp(16px, 4.5vw, 44px);
-    overflow: hidden;
-  }
-  .label {
-    padding-bottom: clamp(8px, 1.4vh, 14px);
-    border-bottom: 1px solid var(--dim-2);
-    margin-bottom: clamp(12px, 2.4vh, 26px);
-  }
-  .label .kicker {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(9px, 1.4vh, 12px);
-    letter-spacing: 0.30em; text-transform: uppercase;
-    color: var(--dim);
-    display: block;
-  }
-  .label .name {
-    font-weight: 900;
-    font-size: clamp(15px, 2.4vh, 24px);
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent);
-    text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent);
-    padding-top: 3px;
-    display: block;
-  }
-  .songs {
-    list-style: none;
-    display: flex; flex-direction: column;
-    gap: clamp(4px, 1.6vh, 20px);
-  }
-  .song {
-    font-weight: 900;
-    font-size: clamp(20px, min(6.4vh, 7.6vw), 96px);
-    line-height: 1.02;
-    letter-spacing: -0.024em;
-    color: var(--fg);
-    display: flex; align-items: baseline; gap: clamp(8px, 1.6vw, 24px);
-    overflow-wrap: break-word;
-  }
-  .song .num {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-size: clamp(11px, 1.7vh, 22px);
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.02em;
-    flex-shrink: 0;
-    min-width: 1.6em;
-    text-align: right;
-    align-self: flex-start;
-    padding-top: 0.55em;
-  }
+  .pos { font-family: "SF Mono", ui-monospace, monospace; font-size: clamp(10px, 1.4vh, 13px); font-weight: 700; color: var(--dim); letter-spacing: 0.18em; white-space: nowrap; flex-shrink: 0; }
+  .body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: clamp(10px, 2vh, 22px) clamp(16px, 4.5vw, 44px); overflow: hidden; }
+  .label { padding-bottom: clamp(8px, 1.4vh, 14px); border-bottom: 1px solid var(--dim-2); margin-bottom: clamp(12px, 2.4vh, 26px); }
+  .label .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(9px, 1.4vh, 12px); letter-spacing: 0.30em; text-transform: uppercase; color: var(--dim); display: block; }
+  .label .name { font-weight: 900; font-size: clamp(15px, 2.4vh, 24px); letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent); padding-top: 3px; display: block; }
+  .songs { list-style: none; display: flex; flex-direction: column; gap: clamp(4px, 1.6vh, 20px); }
+  .song { font-weight: 900; font-size: clamp(20px, min(6.4vh, 7.6vw), 96px); line-height: 1.02; letter-spacing: -0.024em; color: var(--fg); display: flex; align-items: baseline; gap: clamp(8px, 1.6vw, 24px); overflow-wrap: break-word; }
+  .song .num { font-family: "SF Mono", ui-monospace, monospace; font-size: clamp(11px, 1.7vh, 22px); font-weight: 700; color: var(--accent); letter-spacing: 0.02em; flex-shrink: 0; min-width: 1.6em; text-align: right; align-self: flex-start; padding-top: 0.55em; }
   .song .title { flex: 1; min-width: 0; overflow-wrap: break-word; }
-
-  /* ─── SINGLE-SET BODY (scrollable list of all songs in a set) ─── */
-  .set-body {
-    flex: 1; min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: clamp(12px, 2vh, 22px) clamp(16px, 4.5vw, 44px) clamp(16px, 3vh, 32px);
-  }
-  .set-head {
-    padding-bottom: clamp(10px, 2vh, 20px);
-    border-bottom: 2px solid var(--accent);
-    margin-bottom: clamp(14px, 2.4vh, 24px);
-  }
-  .set-head .kicker {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(10px, 1.5vh, 13px);
-    letter-spacing: 0.30em; text-transform: uppercase;
-    color: var(--dim);
-    display: block;
-  }
-  .set-head .name {
-    font-weight: 900;
-    font-size: clamp(36px, min(9vh, 12vw), 108px);
-    letter-spacing: -0.028em; text-transform: uppercase;
-    color: var(--fg);
-    padding-top: 4px;
-  }
-  .set-head .count {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(10px, 1.5vh, 13px);
-    letter-spacing: 0.30em; text-transform: uppercase;
-    color: var(--accent);
-    padding-top: 6px;
-  }
-  .set-mini-header {
-    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
-    padding: clamp(10px, 1.8vh, 18px) 0 clamp(4px, 0.6vh, 8px);
-  }
-  .set-mini-header .kicker {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(9px, 1.3vh, 11px);
-    letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--dim);
-  }
-  .set-mini-header .name {
-    font-weight: 900;
-    font-size: clamp(15px, 2.2vh, 22px);
-    letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--mini-color, var(--accent));
-    text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent);
-  }
+  .set-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: clamp(12px, 2vh, 22px) clamp(16px, 4.5vw, 44px) clamp(16px, 3vh, 32px); }
+  .set-head { padding-bottom: clamp(10px, 2vh, 20px); border-bottom: 2px solid var(--accent); margin-bottom: clamp(14px, 2.4vh, 24px); }
+  .set-head .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(10px, 1.5vh, 13px); letter-spacing: 0.30em; text-transform: uppercase; color: var(--dim); display: block; }
+  .set-head .name { font-weight: 900; font-size: clamp(36px, min(9vh, 12vw), 108px); letter-spacing: -0.028em; text-transform: uppercase; color: var(--fg); padding-top: 4px; }
+  .set-head .count { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(10px, 1.5vh, 13px); letter-spacing: 0.30em; text-transform: uppercase; color: var(--accent); padding-top: 6px; }
+  .set-mini-header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: clamp(10px, 1.8vh, 18px) 0 clamp(4px, 0.6vh, 8px); }
+  .set-mini-header .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(9px, 1.3vh, 11px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+  .set-mini-header .name { font-weight: 900; font-size: clamp(15px, 2.2vh, 22px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--mini-color, var(--accent)); text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent); }
   .set-songlist { list-style: none; padding: 0; margin: 0; }
-  .set-songlist li {
-    font-weight: 800;
-    font-size: clamp(15px, min(2.4vh, 4.6vw), 26px);
-    line-height: 1.42;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--fg);
-    display: flex; align-items: baseline; gap: 12px;
-    padding: 2px 0;
-  }
-  .set-songlist li .num {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(11px, 1.5vh, 14px);
-    color: var(--mini-color, var(--accent));
-    min-width: 2.2em;
-    flex-shrink: 0;
-  }
-
-  /* ─── FULL SETLIST body (both sets, all mini-sets) ─── */
-  .full-body {
-    flex: 1; min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: clamp(14px, 2vh, 24px) clamp(18px, 5vw, 44px) clamp(20px, 4vh, 48px);
-  }
-  .full-set-head {
-    font-weight: 900;
-    font-size: clamp(28px, min(7vh, 10vw), 88px);
-    letter-spacing: -0.024em;
-    text-transform: uppercase;
-    color: var(--fg);
-    padding-top: clamp(14px, 2vh, 24px);
-    padding-bottom: clamp(6px, 1vh, 12px);
-    border-bottom: 1px solid var(--dim-2);
-    margin-bottom: clamp(14px, 2vh, 22px);
-  }
-  .full-mini {
-    padding-top: clamp(14px, 2vh, 22px);
-    padding-bottom: clamp(6px, 1vh, 10px);
-    display: flex; align-items: baseline; gap: 10px;
-    flex-wrap: wrap;
-  }
-  .full-mini .kicker {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(9px, 1.3vh, 11px);
-    letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--dim);
-  }
-  .full-mini .name {
-    font-weight: 900;
-    font-size: clamp(15px, 2.2vh, 22px);
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--mini-color, var(--accent));
-    text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent);
-  }
+  .set-songlist li { font-weight: 800; font-size: clamp(15px, min(2.4vh, 4.6vw), 26px); line-height: 1.42; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); display: flex; align-items: baseline; gap: 12px; padding: 2px 0; }
+  .set-songlist li .num { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(11px, 1.5vh, 14px); color: var(--mini-color, var(--accent)); min-width: 2.2em; flex-shrink: 0; }
+  .full-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: clamp(14px, 2vh, 24px) clamp(18px, 5vw, 44px) clamp(20px, 4vh, 48px); }
+  .full-set-head { font-weight: 900; font-size: clamp(28px, min(7vh, 10vw), 88px); letter-spacing: -0.024em; text-transform: uppercase; color: var(--fg); padding-top: clamp(14px, 2vh, 24px); padding-bottom: clamp(6px, 1vh, 12px); border-bottom: 1px solid var(--dim-2); margin-bottom: clamp(14px, 2vh, 22px); }
+  .full-mini { padding-top: clamp(14px, 2vh, 22px); padding-bottom: clamp(6px, 1vh, 10px); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .full-mini .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(9px, 1.3vh, 11px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+  .full-mini .name { font-weight: 900; font-size: clamp(15px, 2.2vh, 22px); letter-spacing: 0.14em; text-transform: uppercase; color: var(--mini-color, var(--accent)); text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent); }
   .full-songs { list-style: none; padding: 0; margin: 0; }
-  .full-songs li {
-    font-weight: 800;
-    font-size: clamp(14px, 2vh, 20px);
-    line-height: 1.5;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--fg);
-    display: flex; align-items: baseline; gap: 12px;
-  }
-  .full-songs li .num {
-    font-family: "SF Mono", ui-monospace, monospace;
-    font-weight: 700;
-    font-size: clamp(10px, 1.4vh, 13px);
-    color: var(--mini-color, var(--dim));
-    min-width: 2em;
-    flex-shrink: 0;
-  }
-  .full-break {
-    text-align: center;
-    padding: clamp(24px, 4vh, 42px) 0 clamp(12px, 2vh, 22px);
-    font-weight: 900;
-    font-size: clamp(14px, 2vh, 20px);
-    letter-spacing: 0.42em;
-    color: var(--dim);
-  }
-
-  /* ─── BOTTOM BAR ─── */
-  .bot {
-    padding: clamp(6px, 1vh, 10px) clamp(10px, 3vw, 20px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 18px));
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .btn {
-    -webkit-appearance: none; appearance: none;
-    background: rgba(244,237,225,0.10);
-    color: var(--fg);
-    border: 1.5px solid rgba(244,237,225,0.30);
-    border-radius: 999px;
-    padding: clamp(9px, 1.4vh, 15px) clamp(16px, 4vw, 32px);
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: clamp(11px, 1.6vh, 16px);
-    font-weight: 900;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    cursor: pointer;
-    z-index: 20; position: relative;
-    transition: transform 0.06s ease, background 0.15s ease, box-shadow 0.2s ease;
-    white-space: nowrap;
-  }
+  .full-songs li { font-weight: 800; font-size: clamp(14px, 2vh, 20px); line-height: 1.5; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); display: flex; align-items: baseline; gap: 12px; }
+  .full-songs li .num { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(10px, 1.4vh, 13px); color: var(--mini-color, var(--dim)); min-width: 2em; flex-shrink: 0; }
+  .full-break { text-align: center; padding: clamp(24px, 4vh, 42px) 0 clamp(12px, 2vh, 22px); font-weight: 900; font-size: clamp(14px, 2vh, 20px); letter-spacing: 0.42em; color: var(--dim); }
+  .bot { padding: clamp(6px, 1vh, 10px) clamp(10px, 3vw, 20px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 18px)); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0; }
+  .btn { -webkit-appearance: none; appearance: none; background: rgba(244,237,225,0.10); color: var(--fg); border: 1.5px solid rgba(244,237,225,0.30); border-radius: 999px; padding: clamp(9px, 1.4vh, 15px) clamp(16px, 4vw, 32px); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: clamp(11px, 1.6vh, 16px); font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; z-index: 20; position: relative; transition: transform 0.06s ease, background 0.15s ease, box-shadow 0.2s ease; white-space: nowrap; }
   .btn:active { transform: scale(0.96); }
-  .btn.next {
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-    border-color: var(--accent);
-    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
-  }
+  .btn.next { background: color-mix(in srgb, var(--accent) 20%, transparent); border-color: var(--accent); box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent); }
   .btn.next:active { background: var(--accent); color: #000; }
-
-  /* ─── HOME SCREEN (mode picker) ─── */
-  .home-screen {
-    flex: 1;
-    display: flex; flex-direction: column; justify-content: center; align-items: stretch;
-    padding: clamp(20px, 4vh, 44px) clamp(18px, 5vw, 44px);
-    text-align: center;
-    gap: clamp(14px, 2.4vh, 24px);
-  }
-  .home-brand {
-    font-weight: 900;
-    font-size: clamp(30px, min(6vh, 8vw), 76px);
-    letter-spacing: -0.030em;
-    line-height: 0.92;
-    text-transform: uppercase;
-  }
-  .home-sub {
-    font-weight: 700;
-    font-size: clamp(11px, 1.6vh, 16px);
-    letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--dim);
-  }
-  .home-accent {
-    color: var(--accent);
-    text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 60%, transparent);
-    font-weight: 900;
-    font-size: clamp(20px, min(3.8vh, 6vw), 44px);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 4px 0 clamp(10px, 2vh, 22px);
-  }
-  .modes {
-    display: flex; flex-direction: column; gap: clamp(10px, 1.6vh, 16px);
-    margin-top: clamp(4px, 1.4vh, 14px);
-  }
-  .mode {
-    -webkit-appearance: none; appearance: none;
-    background: rgba(244,237,225,0.08);
-    color: var(--fg);
-    border: 1.5px solid rgba(244,237,225,0.28);
-    border-radius: 22px;
-    padding: clamp(14px, 2.4vh, 22px) clamp(16px, 4vw, 28px);
-    cursor: pointer;
-    text-align: left;
-    display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
-    transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease;
-  }
-  .mode:active {
-    transform: scale(0.98);
-    background: color-mix(in srgb, var(--accent) 22%, transparent);
-    border-color: var(--accent);
-  }
-  .mode .m-title {
-    font-weight: 900;
-    font-size: clamp(16px, 2.4vh, 22px);
-    letter-spacing: 0.16em; text-transform: uppercase;
-  }
-  .mode .m-desc {
-    font-weight: 500;
-    font-size: clamp(11px, 1.5vh, 14px);
-    color: var(--dim);
-    line-height: 1.4;
-  }
-
-  /* ─── COVER / BREAK / END slides ─── */
-  .body.cover, .body.break, .body.end {
-    text-align: center;
-    justify-content: center;
-    padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px);
-  }
-  .break .banner {
-    font-size: clamp(52px, min(14vh, 20vw), 200px);
-    font-weight: 900;
-    letter-spacing: 0.16em;
-    color: var(--accent);
-    text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 55%, transparent);
-  }
-  .break .sub {
-    color: var(--dim);
-    font-size: clamp(12px, 1.8vh, 22px);
-    padding-top: clamp(16px, 2.6vh, 30px);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-weight: 700;
-    line-height: 1.5;
-  }
-  .end .brand {
-    font-size: clamp(40px, min(10vh, 15vw), 130px);
-    font-weight: 900;
-    letter-spacing: -0.028em;
-    line-height: 0.92;
-    text-transform: uppercase;
-  }
-  .end .sub {
-    font-size: clamp(11px, 1.7vh, 18px);
-    font-weight: 700;
-    letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--dim);
-    padding-top: clamp(12px, 2.2vh, 22px);
-  }
-  .end .accent {
-    color: var(--accent);
-    text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
-    padding-top: clamp(20px, 4vh, 40px);
-    font-size: clamp(20px, min(3.8vh, 6vw), 44px);
-    font-weight: 900;
-    letter-spacing: 0.06em; text-transform: uppercase;
-  }
-
-  /* Tap zones */
+  .home-screen { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: clamp(20px, 4vh, 44px) clamp(18px, 5vw, 44px); text-align: center; gap: clamp(14px, 2.4vh, 24px); }
+  .home-brand { font-weight: 900; font-size: clamp(30px, min(6vh, 8vw), 76px); letter-spacing: -0.030em; line-height: 0.92; text-transform: uppercase; }
+  .home-sub { font-weight: 700; font-size: clamp(11px, 1.6vh, 16px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+  .home-accent { color: var(--accent); text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 60%, transparent); font-weight: 900; font-size: clamp(20px, min(3.8vh, 6vw), 44px); letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 0 clamp(10px, 2vh, 22px); }
+  .modes { display: flex; flex-direction: column; gap: clamp(10px, 1.6vh, 16px); margin-top: clamp(4px, 1.4vh, 14px); }
+  .mode { -webkit-appearance: none; appearance: none; background: rgba(244,237,225,0.08); color: var(--fg); border: 1.5px solid rgba(244,237,225,0.28); border-radius: 22px; padding: clamp(14px, 2.4vh, 22px) clamp(16px, 4vw, 28px); cursor: pointer; text-align: left; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease; }
+  .mode:active { transform: scale(0.98); background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: var(--accent); }
+  .mode .m-title { font-weight: 900; font-size: clamp(16px, 2.4vh, 22px); letter-spacing: 0.16em; text-transform: uppercase; }
+  .mode .m-desc { font-weight: 500; font-size: clamp(11px, 1.5vh, 14px); color: var(--dim); line-height: 1.4; }
+  .body.cover, .body.break, .body.end { text-align: center; justify-content: center; padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px); }
+  .break .banner { font-size: clamp(52px, min(14vh, 20vw), 200px); font-weight: 900; letter-spacing: 0.16em; color: var(--accent); text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 55%, transparent); }
+  .break .sub { color: var(--dim); font-size: clamp(12px, 1.8vh, 22px); padding-top: clamp(16px, 2.6vh, 30px); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; line-height: 1.5; }
+  .end .brand { font-size: clamp(40px, min(10vh, 15vw), 130px); font-weight: 900; letter-spacing: -0.028em; line-height: 0.92; text-transform: uppercase; }
+  .end .sub { font-size: clamp(11px, 1.7vh, 18px); font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); padding-top: clamp(12px, 2.2vh, 22px); }
+  .end .accent { color: var(--accent); text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent); padding-top: clamp(20px, 4vh, 40px); font-size: clamp(20px, min(3.8vh, 6vw), 44px); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
   .tapleft, .tapright { position: fixed; top: 0; bottom: 0; width: 30%; z-index: 10; }
   .tapleft  { left: 0; }
   .tapright { right: 0; }
-
-  /* Toast */
-  .toast {
-    position: fixed; bottom: calc(env(safe-area-inset-bottom) + 70px);
-    left: 50%; transform: translateX(-50%);
-    background: rgba(244,237,225,0.12);
-    color: var(--fg);
-    padding: 8px 16px; border-radius: 999px;
-    font-size: 10px; font-weight: 800;
-    letter-spacing: 0.24em; text-transform: uppercase;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 100;
-    backdrop-filter: blur(8px);
-  }
+  .toast { position: fixed; bottom: calc(env(safe-area-inset-bottom) + 70px); left: 50%; transform: translateX(-50%); background: rgba(244,237,225,0.12); color: var(--fg); padding: 8px 16px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 100; backdrop-filter: blur(8px); }
   .toast.show { opacity: 1; }
-
-  /* Responsive */
   @media (orientation: landscape) and (max-height: 500px) {
     .body { padding: 6px 28px; }
     .label { padding-bottom: 6px; margin-bottom: 8px; }
@@ -477,9 +156,9 @@ const setlist = [
   { kicker: 'Set 1 · Mini-Set 2', name: 'Classic Rock Kick',
     songs: ['Rock You Like a Hurricane','Born to Be Wild','Paint It Black','Sweet Emotion']},
   { kicker: 'Set 1 · Mini-Set 3', name: 'Groove Zone',
-    songs: ['Money','Shakedown Street','Funk #49','War Pigs']},
+    songs: ['Money','Shakedown Street','Funk #49','War Pigs / Break On Through']},
   { kicker: 'Set 1 · Mini-Set 4', name: 'Bar Anthems',
-    songs: ['Break On Through','All Right Now','Watermelon Sugar','Are You Gonna Be My Girl']},
+    songs: ['All Right Now','Watermelon Sugar','Are You Gonna Be My Girl']},
   { kicker: 'Set 1 · Mini-Set 5', name: 'Set One Closer',
     songs: ['Sex on Fire','You Shook Me All Night Long','Simply the Best','Don’t Stop Believin’']},
   { type: 'break' },
@@ -500,8 +179,6 @@ const setlist = [
 
 const miniIdxs = setlist.map((s,i) => s.type ? -1 : i).filter(i => i >= 0);
 const totalMini = miniIdxs.length;
-
-// Group mini-sets by set number for Single Set mode
 const set1Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 1'));
 const set2Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 2'));
 const setPages = [
@@ -509,17 +186,13 @@ const setPages = [
   { name: 'Set Two', minis: set2Minis, color: COLORS[7] },
 ];
 
-// State: mode + cur index within the current mode
-let mode = 'home';   // 'home' | 'mini' | 'set' | 'full'
+let mode = 'home';
 let cur = 0;
 const stage = document.getElementById('stage');
 const toast = document.getElementById('toast');
 
-// ═════════ RENDER ═════════
-
 function goHome() {
-  mode = 'home';
-  cur = 0;
+  mode = 'home'; cur = 0;
   document.documentElement.style.setProperty('--accent', COLORS[0]);
   stage.innerHTML = `
     <div class="home-screen">
@@ -537,7 +210,7 @@ function goHome() {
         </button>
         <button class="mode" data-mode="full" type="button">
           <span class="m-title">Full Setlist</span>
-          <span class="m-desc">Scroll everything. Both sets, all 41 songs at once.</span>
+          <span class="m-desc">Scroll everything. Both sets in one long view.</span>
         </button>
       </div>
     </div>`;
@@ -569,7 +242,6 @@ function bottomBar(prevOpacity = 1, nextLabel = 'Next ›', nextOpacity = 1) {
     </div>`;
 }
 
-// ─── Mini-Set mode ───
 function renderMini(i) {
   const s = setlist[i];
   let accent = COLORS[0];
@@ -631,19 +303,15 @@ function renderMini(i) {
     ${bottomBar()}`;
 }
 
-// ─── Single Set mode ───
 function renderSet(pageIdx) {
   const page = setPages[pageIdx];
   document.documentElement.style.setProperty('--accent', page.color);
   const totalSongs = page.minis.reduce((a, mi) => a + setlist[mi].songs.length, 0);
   const posText = `${String(pageIdx + 1).padStart(2, '0')} / ${String(setPages.length).padStart(2, '0')}`;
-
-  // Build mini-set sections with their songs
   let sectionsHTML = '';
   let songNumber = 1;
-  page.minis.forEach((mi, mIdx) => {
+  page.minis.forEach(mi => {
     const s = setlist[mi];
-    // Get the mini's color (global mini index)
     const globalMiniIdx = miniIdxs.indexOf(mi);
     const miniColor = COLORS[globalMiniIdx];
     sectionsHTML += `<div class="set-mini-header" style="--mini-color:${miniColor}">
@@ -657,8 +325,6 @@ function renderSet(pageIdx) {
     });
     sectionsHTML += `</ul>`;
   });
-
-  // Progress dots for the 2 set pages
   const dots = [];
   for (let i = 0; i < setPages.length; i++) {
     let cls = 'dot';
@@ -676,21 +342,20 @@ function renderSet(pageIdx) {
       <div class="set-head">
         <span class="kicker">Every Second Tuesday · Ben &amp; Krista</span>
         <div class="name">${page.name}</div>
-        <div class="count">${totalSongs} songs · ${page.minis.length} mini-sets</div>
+        <div class="count">${totalSongs} entries · ${page.minis.length} mini-sets</div>
       </div>
       ${sectionsHTML}
     </div>
     ${bottomBar(pageIdx === 0 ? 0.35 : 1, pageIdx === setPages.length - 1 ? 'End ›' : 'Set Two ›', pageIdx === setPages.length - 1 ? 0.35 : 1)}`;
 }
 
-// ─── Full Setlist ───
 function renderFull() {
   document.documentElement.style.setProperty('--accent', COLORS[0]);
   let html = `
     <div class="top">
       <button class="home-btn" data-home="1" type="button">‹ Home</button>
       <div style="flex:1"></div>
-      <div class="pos">41 Songs</div>
+      <div class="pos">Full Setlist</div>
     </div>
     <div class="full-body">
       <div class="full-set-head">Set One</div>`;
@@ -717,8 +382,6 @@ function renderFull() {
   stage.innerHTML = html;
 }
 
-// ═════════ NAVIGATION ═════════
-
 function render() {
   if (mode === 'home') return goHome();
   if (mode === 'mini') return renderMini(cur);
@@ -736,11 +399,7 @@ function go(delta) {
   render();
 }
 
-function setMode(m) {
-  mode = m;
-  cur = 0;
-  render();
-}
+function setMode(m) { mode = m; cur = 0; render(); }
 
 document.addEventListener('click', e => {
   const homeBtn = e.target.closest('[data-home]');
