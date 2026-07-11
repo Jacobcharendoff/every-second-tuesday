@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EST · Ben & Krista">
+<meta name="theme-color" content="#000000">
+<title>EST · Stage</title>
+<style>
+  :root {
+    --bg: #000;
+    --fg: #f4ede1;
+    --dim: rgba(244,237,225,0.42);
+    --dim-2: rgba(244,237,225,0.14);
+    --accent: #ff2e6e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  @supports (height: 100dvh) { html, body { height: 100dvh; } }
+
+  #stage {
+    position: fixed; inset: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    display: flex; flex-direction: column;
+    transition: background-color 0.35s ease;
+  }
+
+  .top {
+    padding: clamp(10px, 2.2vh, 22px) clamp(16px, 3.5vw, 32px) clamp(6px, 1.4vh, 12px);
+    display: flex; align-items: center; gap: clamp(10px, 2vw, 20px);
+    flex-shrink: 0;
+  }
+  .progress { display: flex; gap: clamp(4px, 0.7vw, 6px); flex: 1; }
+  .progress .dot {
+    flex: 1; height: 4px;
+    background: var(--dim-2);
+    border-radius: 2px;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+  }
+  .progress .dot.done { background: rgba(244,237,225,0.55); }
+  .progress .dot.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .pos {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: clamp(11px, 1.6vh, 14px);
+    font-weight: 700;
+    color: var(--dim);
+    letter-spacing: 0.20em;
+    white-space: nowrap;
+  }
+
+  .body {
+    flex: 1; min-height: 0; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(10px, 2vh, 22px) clamp(20px, 4vw, 44px);
+  }
+  .label {
+    font-weight: 900;
+    font-size: clamp(13px, 2.1vh, 20px);
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 55%, transparent);
+    padding-bottom: clamp(10px, 1.8vh, 16px);
+    border-bottom: 1px solid var(--dim-2);
+    margin-bottom: clamp(16px, 3vh, 32px);
+  }
+  .songs { list-style: none; display: flex; flex-direction: column; gap: clamp(8px, 2.4vh, 26px); }
+  .song {
+    font-weight: 900;
+    font-size: clamp(30px, 8.2vh, 108px);
+    line-height: 0.98;
+    letter-spacing: -0.028em;
+    color: var(--fg);
+    display: flex; align-items: baseline; gap: clamp(10px, 2vw, 28px);
+  }
+  .song .num {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: clamp(14px, 2.2vh, 26px);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    min-width: 1.6em;
+    text-align: right;
+    align-self: flex-start;
+    padding-top: 0.9em;
+  }
+  .song .title { flex: 1; }
+
+  .bot {
+    padding: clamp(6px, 1.2vh, 12px) clamp(12px, 3vw, 22px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 20px));
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .btn {
+    -webkit-appearance: none; appearance: none;
+    background: rgba(244,237,225,0.10);
+    color: var(--fg);
+    border: 1.5px solid rgba(244,237,225,0.30);
+    border-radius: 999px;
+    padding: clamp(10px, 1.8vh, 16px) clamp(20px, 4vw, 34px);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(13px, 1.9vh, 17px);
+    font-weight: 900;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    cursor: pointer;
+    z-index: 20;
+    position: relative;
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+    transition: transform 0.06s ease, background 0.15s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn.next {
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    border-color: var(--accent);
+    color: var(--fg);
+    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  .btn.next:active { background: var(--accent); color: #000; }
+
+  .cover, .break, .end {
+    text-align: center;
+    justify-content: center;
+    padding: clamp(24px, 5vh, 60px) clamp(20px, 5vw, 44px);
+  }
+  .cover .brand, .end .brand {
+    font-size: clamp(44px, 11vh, 130px);
+    font-weight: 900;
+    letter-spacing: -0.032em;
+    line-height: 0.90;
+    text-transform: uppercase;
+  }
+  .cover .sub, .end .sub {
+    font-size: clamp(13px, 1.9vh, 20px);
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding-top: clamp(14px, 2.4vh, 24px);
+  }
+  .cover .accent {
+    color: var(--accent);
+    text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
+    padding-top: clamp(24px, 4.4vh, 44px);
+    font-size: clamp(22px, 4vh, 44px);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .break .banner {
+    font-size: clamp(58px, 15vh, 200px);
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .break .sub {
+    color: var(--dim);
+    font-size: clamp(14px, 2vh, 24px);
+    padding-top: clamp(18px, 3vh, 32px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .tapleft, .tapright { position: fixed; top: 0; bottom: 0; width: 30%; z-index: 10; }
+  .tapleft  { left: 0; }
+  .tapright { right: 0; }
+
+  .toast {
+    position: fixed; bottom: calc(env(safe-area-inset-bottom) + 78px);
+    left: 50%; transform: translateX(-50%);
+    background: rgba(244,237,225,0.12);
+    color: var(--fg);
+    padding: 9px 18px; border-radius: 999px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .toast.show { opacity: 1; }
+
+  @media (orientation: landscape) and (max-height: 500px) {
+    .top { padding: 8px 20px 4px; }
+    .body { padding: 6px 32px; }
+    .label { font-size: 12px; padding-bottom: 8px; margin-bottom: 10px; }
+    .songs { gap: 4px; }
+    .song { font-size: min(9vh, 60px); }
+    .bot { padding: 4px 16px calc(env(safe-area-inset-bottom) + 8px); }
+    .btn { padding: 8px 20px; font-size: 12px; }
+  }
+  @media (orientation: landscape) and (min-width: 900px) {
+    .song { font-size: min(11vh, 130px); }
+    .label { font-size: 22px; }
+  }
+  @media (max-width: 420px) {
+    .song { font-size: min(7.2vh, 52px); }
+    .btn { padding: 12px 22px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+<div class="tapleft" data-nav="prev"></div>
+<div class="tapright" data-nav="next"></div>
+<div class="toast" id="toast">Screen locked on</div>
+
+<script>
+const COLORS = [
+  '#ff2e6e','#ff8a2e','#ffd93d','#a8e063','#4ecdc4',
+  '#4a90e2','#9b59d0','#ff2eae','#ff6b6b','#ffa04d','#7dff5c'
+];
+
+const setlist = [
+  { type: 'cover' },
+  { label: 'Set 1 · Mini-Set 1', name: 'Warm the Room',
+    songs: [['Oh! Darling','The Beatles'],['Johnny B. Goode','Chuck Berry'],['Take Me Out','Franz Ferdinand'],['Song 2','Blur']]},
+  { label: 'Set 1 · Mini-Set 2', name: 'Classic Rock Kick',
+    songs: [['Rock You Like a Hurricane','Scorpions'],['Born to Be Wild','Steppenwolf'],['Paint It Black','Rolling Stones'],['Sweet Emotion','Aerosmith']]},
+  { label: 'Set 1 · Mini-Set 3', name: 'Groove Zone',
+    songs: [['Money','Pink Floyd'],['Shakedown Street','Grateful Dead'],['Funk #49','James Gang'],['War Pigs','Black Sabbath']]},
+  { label: 'Set 1 · Mini-Set 4', name: 'Bar Anthems',
+    songs: [['Break On Through','The Doors'],['All Right Now','Free'],['Watermelon Sugar','Harry Styles'],['Are You Gonna Be My Girl','Jet']]},
+  { label: 'Set 1 · Mini-Set 5', name: 'Set One Closer',
+    songs: [['Sex on Fire','Kings of Leon'],['You Shook Me All Night Long','AC/DC'],['Simply the Best','Tina Turner'],['Don’t Stop Believin’','Journey']]},
+  { type: 'break' },
+  { label: 'Set 2 · Mini-Set 1', name: 'Pink Floyd Opener',
+    songs: [['Breathe','Pink Floyd'],['Time','Pink Floyd']]},
+  { label: 'Set 2 · Mini-Set 2', name: 'Bang the Room Awake',
+    songs: [['Mr. Brightside','The Killers'],['Somebody Told Me','The Killers'],['Vertigo','U2'],['All the Small Things','Blink-182']]},
+  { label: 'Set 2 · Mini-Set 3', name: 'Modern Rock Peak',
+    songs: [['All Star','Smash Mouth'],['Learn to Fly','Foo Fighters'],['Californication','RHCP'],['Ramblin’ Man','Allman Brothers']]},
+  { label: 'Set 2 · Mini-Set 4', name: 'Groove Breath → Heavy',
+    songs: [['They Love Each Other','Grateful Dead'],['Norwegian Wood','The Beatles'],['I Want You (She’s So Heavy)','The Beatles'],['Rock and Roll','Led Zeppelin']]},
+  { label: 'Set 2 · Mini-Set 5', name: 'Heavy Bridge',
+    songs: [['It’s a Long Way to the Top','AC/DC'],['Burnin’ for You','Blue Öyster Cult'],['Carry On Wayward Son','Kansas']]},
+  { label: 'Set 2 · Mini-Set 6', name: 'The Big Finish',
+    songs: [['Seven Nation Army','White Stripes'],['Livin’ on a Prayer','Bon Jovi'],['Closing Time','Semisonic'],['Wonderwall','Oasis']]},
+  { type: 'end' },
+];
+
+const miniIdxs = setlist.map((s,i) => s.type ? -1 : i).filter(i => i >= 0);
+const total = miniIdxs.length;
+let cur = 0;
+const stage = document.getElementById('stage');
+const toast = document.getElementById('toast');
+
+function colorFor(index) {
+  const s = setlist[index];
+  if (s.type === 'cover') return COLORS[0];
+  if (s.type === 'end') return COLORS[COLORS.length - 1];
+  if (s.type === 'break') {
+    const nextMini = miniIdxs.find(i => i > index);
+    return nextMini != null ? COLORS[miniIdxs.indexOf(nextMini)] : COLORS[0];
+  }
+  return COLORS[miniIdxs.indexOf(index)];
+}
+
+function progressBar(activeMini) {
+  const dots = [];
+  for (let i = 0; i < total; i++) {
+    let cls = 'dot';
+    if (activeMini != null && i < activeMini) cls += ' done';
+    if (activeMini != null && i === activeMini) cls += ' active';
+    dots.push(`<div class="${cls}"></div>`);
+  }
+  return `<div class="progress">${dots.join('')}</div>`;
+}
+
+function render(i) {
+  const s = setlist[i];
+  document.documentElement.style.setProperty('--accent', colorFor(i));
+  if (s.type === 'cover') {
+    stage.innerHTML = `
+      <div class="body cover">
+        <div class="brand">Every<br>Second<br>Tuesday</div>
+        <div class="accent">Ben &amp; Krista</div>
+        <div class="sub">July 11, 2026 · 8 Humewood Dr · Toronto</div>
+      </div>
+      <div class="bot">
+        <button class="btn prev" data-nav="prev" type="button" style="opacity:0.35">‹ Prev</button>
+        <button class="btn next" data-nav="next" type="button">Start ›</button>
+      </div>`;
+    return;
+  }
+  if (s.type === 'break') {
+    stage.innerHTML = `
+      <div class="body break">
+        <div class="banner">BREAK</div>
+        <div class="sub">Twenty minutes.<br>Water. Tuning. Come back hot.</div>
+      </div>
+      <div class="bot">
+        <button class="btn prev" data-nav="prev" type="button">‹ Prev</button>
+        <button class="btn next" data-nav="next" type="button">Set Two ›</button>
+      </div>`;
+    return;
+  }
+  if (s.type === 'end') {
+    stage.innerHTML = `
+      <div class="body end">
+        <div class="brand">Thank you.</div>
+        <div class="sub">Ben &amp; Krista · 07.11.2026</div>
+        <div class="accent">EST</div>
+      </div>
+      <div class="bot">
+        <button class="btn prev" data-nav="prev" type="button">‹ Prev</button>
+        <button class="btn next" data-nav="next" type="button" style="opacity:0.35">Next ›</button>
+      </div>`;
+    return;
+  }
+  const miniIdx = miniIdxs.indexOf(i);
+  const posText = `${String(miniIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+  const songsHTML = s.songs.map((sg, idx) => `
+    <li class="song">
+      <span class="num">${String(idx + 1).padStart(2, '0')}</span>
+      <span class="title">${sg[0]}</span>
+    </li>`).join('');
+  stage.innerHTML = `
+    <div class="top">
+      ${progressBar(miniIdx)}
+      <div class="pos">${posText}</div>
+    </div>
+    <div class="body">
+      <div class="label">${s.label} · ${s.name}</div>
+      <ul class="songs">${songsHTML}</ul>
+    </div>
+    <div class="bot">
+      <button class="btn prev" data-nav="prev" type="button">‹ Prev</button>
+      <button class="btn next" data-nav="next" type="button">Next ›</button>
+    </div>`;
+}
+
+function go(delta) {
+  cur = Math.max(0, Math.min(setlist.length - 1, cur + delta));
+  render(cur);
+}
+
+document.addEventListener('click', e => {
+  const nav = e.target.closest('[data-nav]');
+  if (!nav) return;
+  e.stopPropagation();
+  go(nav.dataset.nav === 'next' ? 1 : -1);
+});
+
+let sx = 0, sy = 0, st = 0;
+document.addEventListener('touchstart', e => {
+  const t = e.changedTouches[0];
+  sx = t.screenX; sy = t.screenY; st = Date.now();
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  const t = e.changedTouches[0];
+  const dx = t.screenX - sx, dy = t.screenY - sy, dt = Date.now() - st;
+  if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) && dt < 800) {
+    go(dx < 0 ? 1 : -1);
+  }
+}, { passive: true });
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') go(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'PageUp') go(-1);
+  if (e.key === 'Home') { cur = 0; render(cur); }
+  if (e.key === 'End')  { cur = setlist.length - 1; render(cur); }
+});
+
+let wakeLock = null;
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      showToast('Screen locked on');
+    }
+  } catch (e) {}
+}
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') requestWakeLock();
+});
+document.addEventListener('click', requestWakeLock, { once: true });
+document.addEventListener('touchstart', requestWakeLock, { once: true });
+
+render(cur);
+</script>
+
+</body>
+</html>
