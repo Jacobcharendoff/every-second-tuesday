@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EST · R&C 08.28">
+<meta name="theme-color" content="#000000">
+<title>EST · Stage · Rose &amp; Crown · Aug 28, 2026</title>
+<style>
+  :root {
+    --bg: #000;
+    --fg: #f4ede1;
+    --dim: rgba(244,237,225,0.42);
+    --dim-2: rgba(244,237,225,0.14);
+    --accent: #ff2e6e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    overflow: hidden;
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  @supports (height: 100dvh) { html, body { height: 100dvh; } }
+  #stage {
+    position: fixed; inset: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    display: flex; flex-direction: column;
+    transition: background-color 0.35s ease;
+  }
+  .top {
+    padding: clamp(8px, 1.8vh, 20px) clamp(14px, 4vw, 32px) clamp(4px, 1vh, 10px);
+    display: flex; align-items: center; gap: clamp(8px, 2vw, 18px);
+    flex-shrink: 0;
+  }
+  .home-btn {
+    -webkit-appearance: none; appearance: none;
+    background: rgba(244,237,225,0.10);
+    color: var(--fg);
+    border: 1.5px solid rgba(244,237,225,0.30);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(10px, 1.4vh, 13px);
+    font-weight: 900;
+    letter-spacing: 0.20em; text-transform: uppercase;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+    z-index: 20; position: relative;
+  }
+  .home-btn:active { transform: scale(0.96); background: var(--accent); border-color: var(--accent); color: #000; }
+  .progress { display: flex; gap: 4px; flex: 1; min-width: 0; }
+  .progress .dot { flex: 1; height: 4px; background: var(--dim-2); border-radius: 2px; transition: background 0.25s ease, box-shadow 0.25s ease; }
+  .progress .dot.done { background: rgba(244,237,225,0.55); }
+  .progress .dot.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .pos { font-family: "SF Mono", ui-monospace, monospace; font-size: clamp(10px, 1.4vh, 13px); font-weight: 700; color: var(--dim); letter-spacing: 0.18em; white-space: nowrap; flex-shrink: 0; }
+  .body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: clamp(10px, 2vh, 22px) clamp(16px, 4.5vw, 44px); overflow: hidden; }
+  .label { padding-bottom: clamp(8px, 1.4vh, 14px); border-bottom: 1px solid var(--dim-2); margin-bottom: clamp(12px, 2.4vh, 26px); }
+  .label .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(9px, 1.4vh, 12px); letter-spacing: 0.30em; text-transform: uppercase; color: var(--dim); display: block; }
+  .label .name { font-weight: 900; font-size: clamp(15px, 2.4vh, 24px); letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 55%, transparent); padding-top: 3px; display: block; }
+  .songs { list-style: none; display: flex; flex-direction: column; gap: clamp(4px, 1.6vh, 20px); }
+  .song { font-weight: 900; font-size: clamp(20px, min(6.4vh, 7.6vw), 96px); line-height: 1.02; letter-spacing: -0.024em; color: var(--fg); display: flex; align-items: baseline; gap: clamp(8px, 1.6vw, 24px); overflow-wrap: break-word; }
+  .song .num { font-family: "SF Mono", ui-monospace, monospace; font-size: clamp(11px, 1.7vh, 22px); font-weight: 700; color: var(--accent); letter-spacing: 0.02em; flex-shrink: 0; min-width: 1.6em; text-align: right; align-self: flex-start; padding-top: 0.55em; }
+  .song .title { flex: 1; min-width: 0; overflow-wrap: break-word; }
+  .set-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: clamp(12px, 2vh, 22px) clamp(16px, 4.5vw, 44px) clamp(16px, 3vh, 32px); }
+  .set-head { padding-bottom: clamp(10px, 2vh, 20px); border-bottom: 2px solid var(--accent); margin-bottom: clamp(14px, 2.4vh, 24px); }
+  .set-head .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(10px, 1.5vh, 13px); letter-spacing: 0.30em; text-transform: uppercase; color: var(--dim); display: block; }
+  .set-head .name { font-weight: 900; font-size: clamp(36px, min(9vh, 12vw), 108px); letter-spacing: -0.028em; text-transform: uppercase; color: var(--fg); padding-top: 4px; }
+  .set-head .count { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(10px, 1.5vh, 13px); letter-spacing: 0.30em; text-transform: uppercase; color: var(--accent); padding-top: 6px; }
+  .set-mini-header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: clamp(10px, 1.8vh, 18px) 0 clamp(4px, 0.6vh, 8px); }
+  .set-mini-header .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(9px, 1.3vh, 11px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+  .set-mini-header .name { font-weight: 900; font-size: clamp(15px, 2.2vh, 22px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--mini-color, var(--accent)); text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent); }
+  .set-songlist { list-style: none; padding: 0; margin: 0; }
+  .set-songlist li { font-weight: 800; font-size: clamp(15px, min(2.4vh, 4.6vw), 26px); line-height: 1.42; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); display: flex; align-items: baseline; gap: 12px; padding: 2px 0; }
+  .set-songlist li .num { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(11px, 1.5vh, 14px); color: var(--mini-color, var(--accent)); min-width: 2.2em; flex-shrink: 0; }
+  .full-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: clamp(14px, 2vh, 24px) clamp(18px, 5vw, 44px) clamp(20px, 4vh, 48px); }
+  .full-set-head { font-weight: 900; font-size: clamp(28px, min(7vh, 10vw), 88px); letter-spacing: -0.024em; text-transform: uppercase; color: var(--fg); padding-top: clamp(14px, 2vh, 24px); padding-bottom: clamp(6px, 1vh, 12px); border-bottom: 1px solid var(--dim-2); margin-bottom: clamp(14px, 2vh, 22px); }
+  .full-mini { padding-top: clamp(14px, 2vh, 22px); padding-bottom: clamp(6px, 1vh, 10px); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .full-mini .kicker { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(9px, 1.3vh, 11px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+  .full-mini .name { font-weight: 900; font-size: clamp(15px, 2.2vh, 22px); letter-spacing: 0.14em; text-transform: uppercase; color: var(--mini-color, var(--accent)); text-shadow: 0 0 18px color-mix(in srgb, var(--mini-color, var(--accent)) 55%, transparent); }
+  .full-songs { list-style: none; padding: 0; margin: 0; }
+  .full-songs li { font-weight: 800; font-size: clamp(14px, 2vh, 20px); line-height: 1.5; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); display: flex; align-items: baseline; gap: 12px; }
+  .full-songs li .num { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; font-size: clamp(10px, 1.4vh, 13px); color: var(--mini-color, var(--dim)); min-width: 2em; flex-shrink: 0; }
+  .full-break { text-align: center; padding: clamp(24px, 4vh, 42px) 0 clamp(12px, 2vh, 22px); font-weight: 900; font-size: clamp(14px, 2vh, 20px); letter-spacing: 0.42em; color: var(--dim); }
+  .bot { padding: clamp(6px, 1vh, 10px) clamp(10px, 3vw, 20px) calc(env(safe-area-inset-bottom) + clamp(10px, 1.8vh, 18px)); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0; }
+  .btn { -webkit-appearance: none; appearance: none; background: rgba(244,237,225,0.10); color: var(--fg); border: 1.5px solid rgba(244,237,225,0.30); border-radius: 999px; padding: clamp(9px, 1.4vh, 15px) clamp(16px, 4vw, 32px); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: clamp(11px, 1.6vh, 16px); font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; z-index: 20; position: relative; transition: transform 0.06s ease, background 0.15s ease, box-shadow 0.2s ease; white-space: nowrap; }
+  .btn:active { transform: scale(0.96); }
+  .btn.next { background: color-mix(in srgb, var(--accent) 20%, transparent); border-color: var(--accent); box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent); }
+  .btn.next:active { background: var(--accent); color: #000; }
+  .home-screen { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: clamp(20px, 4vh, 44px) clamp(18px, 5vw, 44px); text-align: center; gap: clamp(14px, 2.4vh, 24px); }
+  .home-brand { font-weight: 900; font-size: clamp(30px, min(6vh, 8vw), 76px); letter-spacing: -0.030em; line-height: 0.92; text-transform: uppercase; }
+  .home-sub { font-weight: 700; font-size: clamp(11px, 1.6vh, 16px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
+  .home-accent { color: var(--accent); text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 60%, transparent); font-weight: 900; font-size: clamp(20px, min(3.8vh, 6vw), 44px); letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 0 clamp(10px, 2vh, 22px); }
+  .modes { display: flex; flex-direction: column; gap: clamp(10px, 1.6vh, 16px); margin-top: clamp(4px, 1.4vh, 14px); }
+  .mode { -webkit-appearance: none; appearance: none; background: rgba(244,237,225,0.08); color: var(--fg); border: 1.5px solid rgba(244,237,225,0.28); border-radius: 22px; padding: clamp(14px, 2.4vh, 22px) clamp(16px, 4vw, 28px); cursor: pointer; text-align: left; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; transition: transform 0.06s ease, background 0.15s ease, border-color 0.15s ease; }
+  .mode:active { transform: scale(0.98); background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: var(--accent); }
+  .mode .m-title { font-weight: 900; font-size: clamp(16px, 2.4vh, 22px); letter-spacing: 0.16em; text-transform: uppercase; }
+  .mode .m-desc { font-weight: 500; font-size: clamp(11px, 1.5vh, 14px); color: var(--dim); line-height: 1.4; }
+  .body.cover, .body.break, .body.end { text-align: center; justify-content: center; padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px); }
+  .break .banner { font-size: clamp(52px, min(14vh, 20vw), 200px); font-weight: 900; letter-spacing: 0.16em; color: var(--accent); text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 55%, transparent); }
+  .break .sub { color: var(--dim); font-size: clamp(12px, 1.8vh, 22px); padding-top: clamp(16px, 2.6vh, 30px); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; line-height: 1.5; }
+  .end .brand { font-size: clamp(40px, min(10vh, 15vw), 130px); font-weight: 900; letter-spacing: -0.028em; line-height: 0.92; text-transform: uppercase; }
+  .end .sub { font-size: clamp(11px, 1.7vh, 18px); font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); padding-top: clamp(12px, 2.2vh, 22px); }
+  .end .accent { color: var(--accent); text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent); padding-top: clamp(20px, 4vh, 40px); font-size: clamp(20px, min(3.8vh, 6vw), 44px); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+  .tapleft, .tapright { position: fixed; top: 0; bottom: 0; width: 30%; z-index: 10; }
+  .tapleft  { left: 0; }
+  .tapright { right: 0; }
+  .toast { position: fixed; bottom: calc(env(safe-area-inset-bottom) + 70px); left: 50%; transform: translateX(-50%); background: rgba(244,237,225,0.12); color: var(--fg); padding: 8px 16px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 100; backdrop-filter: blur(8px); }
+  .toast.show { opacity: 1; }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .body { padding: 6px 28px; }
+    .label { padding-bottom: 6px; margin-bottom: 8px; }
+    .label .kicker { font-size: 8px; letter-spacing: 0.24em; }
+    .label .name { font-size: 12px; letter-spacing: 0.14em; }
+    .songs { gap: 3px; }
+    .song { font-size: min(8vh, 44px); }
+    .song .num { font-size: 10px; padding-top: 0.5em; }
+    .bot { padding: 3px 14px calc(env(safe-area-inset-bottom) + 6px); }
+    .btn { padding: 7px 16px; font-size: 10px; }
+  }
+  @media (orientation: landscape) and (min-width: 900px) {
+    .song { font-size: min(10vh, 118px); }
+    .label .name { font-size: 26px; }
+  }
+  @media (max-width: 420px) {
+    .song { font-size: min(6vh, 7vw); }
+    .btn { padding: 10px 18px; font-size: 11px; letter-spacing: 0.16em; }
+    .label .name { letter-spacing: 0.14em; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+<div class="tapleft" data-nav="prev"></div>
+<div class="tapright" data-nav="next"></div>
+<div class="toast" id="toast">Screen locked on</div>
+
+<script>
+const COLORS = [
+  '#ff2e6e','#ff8a2e','#ffd93d','#a8e063','#4ecdc4',
+  '#4a90e2','#9b59d0','#ff2eae','#ff6b6b','#ffa04d','#7dff5c'
+];
+
+const GIG = {
+  venue: 'The Rose &amp; Crown',
+  date:  'Friday, Aug 28, 2026',
+  dateShort: '08.28.2026',
+};
+
+const setlist = [
+  { type: 'cover' },
+  // Set 1 (15 songs · 4 mini-sets)
+  { kicker: 'Set 1 · Mini-Set 1', name: 'Warmup',
+    songs: ["It's a Long Way to the Top","Born to Be Wild","Sweet Emotion","Johnny B. Goode"]},
+  { kicker: 'Set 1 · Mini-Set 2', name: 'Classic Rock',
+    songs: ["Paint It Black","Rock and Roll","Burnin' for You","Shakedown Street"]},
+  { kicker: 'Set 1 · Mini-Set 3', name: 'Groove Zone',
+    songs: ["Fire","Rockin' in the Free World","Californication","Funk #49"]},
+  { kicker: 'Set 1 · Mini-Set 4', name: 'Set One Closer',
+    songs: ["War Pigs","Break On Through","Love Me Two Times"]},
+  { type: 'break' },
+  // Set 2 (16 songs · 4 mini-sets)
+  { kicker: 'Set 2 · Mini-Set 1', name: 'Set Two Kickoff',
+    songs: ["Seven Nation Army","Are You Gonna Be My Girl","Mr. Brightside","Somebody Told Me"]},
+  { kicker: 'Set 2 · Mini-Set 2', name: 'Modern Rock',
+    songs: ["Song 2","All Star","Take Me Out","This Love"]},
+  { kicker: 'Set 2 · Mini-Set 3', name: 'Feel Good',
+    songs: ["Yellow","All the Small Things","Sex on Fire","Watermelon Sugar"]},
+  { kicker: 'Set 2 · Mini-Set 4', name: 'Bar Anthems',
+    songs: ["You Shook Me All Night Long","Use Somebody","Wonderwall","Livin' on a Prayer"]},
+  { type: 'break' },
+  // Set 3 (10 songs · 3 mini-sets)
+  { kicker: 'Set 3 · Mini-Set 1', name: 'Set Three Opener',
+    songs: ["Don't Stop Believin'","Rock You Like a Hurricane","Money","Vertigo"]},
+  { kicker: 'Set 3 · Mini-Set 2', name: 'Deep Cuts',
+    songs: ["Ramblin' Man","Learn to Fly","Highway Star"]},
+  { kicker: 'Set 3 · Mini-Set 3', name: 'The Big Finish',
+    songs: ["Closing Time","Carry On Wayward Son","Whipping Post"]},
+  { type: 'end' },
+];
+
+const miniIdxs = setlist.map((s,i) => s.type ? -1 : i).filter(i => i >= 0);
+const totalMini = miniIdxs.length;
+const set1Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 1'));
+const set2Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 2'));
+const set3Minis = miniIdxs.filter(i => setlist[i].kicker.startsWith('Set 3'));
+const setPages = [
+  { name: 'Set One',   minis: set1Minis, color: COLORS[1] },
+  { name: 'Set Two',   minis: set2Minis, color: COLORS[5] },
+  { name: 'Set Three', minis: set3Minis, color: COLORS[9] },
+];
+
+let mode = 'home';
+let cur = 0;
+const stage = document.getElementById('stage');
+const toast = document.getElementById('toast');
+
+function goHome() {
+  mode = 'home'; cur = 0;
+  document.documentElement.style.setProperty('--accent', COLORS[0]);
+  stage.innerHTML = `
+    <div class="home-screen">
+      <div class="home-brand">Every<br>Second<br>Tuesday</div>
+      <div class="home-accent">${GIG.venue}</div>
+      <div class="home-sub">${GIG.date}</div>
+      <div class="modes">
+        <button class="mode" data-mode="mini" type="button">
+          <span class="m-title">Mini-Set Mode</span>
+          <span class="m-desc">Swipe through 11 mini-sets. Neon color per set. Recommended for stage.</span>
+        </button>
+        <button class="mode" data-mode="set" type="button">
+          <span class="m-title">Single Set Mode</span>
+          <span class="m-desc">Three screens — Set 1, Set 2, Set 3. Every song in the set, scrollable.</span>
+        </button>
+        <button class="mode" data-mode="full" type="button">
+          <span class="m-title">Full Setlist</span>
+          <span class="m-desc">Scroll everything. All three sets in one long view.</span>
+        </button>
+      </div>
+    </div>`;
+}
+
+function topBar(dotIdx, dotTotal, posText) {
+  const dots = [];
+  for (let i = 0; i < dotTotal; i++) {
+    let cls = 'dot';
+    if (dotIdx != null && i < dotIdx) cls += ' done';
+    if (dotIdx != null && i === dotIdx) cls += ' active';
+    dots.push(`<div class="${cls}"></div>`);
+  }
+  return `
+    <div class="top">
+      <button class="home-btn" data-home="1" type="button">‹ Home</button>
+      <div class="progress">${dots.join('')}</div>
+      ${posText ? `<div class="pos">${posText}</div>` : ''}
+    </div>`;
+}
+
+function bottomBar(prevOpacity = 1, nextLabel = 'Next ›', nextOpacity = 1) {
+  const prevStyle = prevOpacity < 1 ? ' style="opacity:0.35"' : '';
+  const nextStyle = nextOpacity < 1 ? ' style="opacity:0.35"' : '';
+  return `
+    <div class="bot">
+      <button class="btn prev" data-nav="prev" type="button"${prevStyle}>‹ Prev</button>
+      <button class="btn next" data-nav="next" type="button"${nextStyle}>${nextLabel}</button>
+    </div>`;
+}
+
+function nextSetLabel(afterIndex) {
+  const next = miniIdxs.find(x => x > afterIndex);
+  if (next == null) return 'Next ›';
+  const m = setlist[next].kicker.match(/Set (\d+)/);
+  const num = m ? parseInt(m[1], 10) : null;
+  const words = { 1: 'Set One', 2: 'Set Two', 3: 'Set Three' };
+  return (words[num] || 'Next') + ' ›';
+}
+
+function renderMini(i) {
+  const s = setlist[i];
+  let accent = COLORS[0];
+  if (s.type === 'end') accent = COLORS[COLORS.length - 1];
+  else if (s.type === 'break') {
+    const next = miniIdxs.find(x => x > i);
+    accent = next != null ? COLORS[miniIdxs.indexOf(next)] : COLORS[0];
+  } else if (!s.type) accent = COLORS[miniIdxs.indexOf(i)];
+  document.documentElement.style.setProperty('--accent', accent);
+
+  if (s.type === 'cover') {
+    stage.innerHTML = `
+      ${topBar(null, 0, '')}
+      <div class="body cover">
+        <div class="home-brand" style="font-size:clamp(40px,min(10vh,15vw),130px)">Every<br>Second<br>Tuesday</div>
+        <div class="home-accent">${GIG.venue}</div>
+        <div class="home-sub">${GIG.date}</div>
+      </div>
+      ${bottomBar(0.35, 'Start ›')}`;
+    return;
+  }
+  if (s.type === 'break') {
+    stage.innerHTML = `
+      ${topBar(null, 0, '')}
+      <div class="body break">
+        <div class="banner">BREAK</div>
+        <div class="sub">Twenty minutes.<br>Water. Tuning. Come back hot.</div>
+      </div>
+      ${bottomBar(1, nextSetLabel(i))}`;
+    return;
+  }
+  if (s.type === 'end') {
+    stage.innerHTML = `
+      ${topBar(null, 0, '')}
+      <div class="body end">
+        <div class="brand">Thank you.</div>
+        <div class="sub">${GIG.venue} · ${GIG.dateShort}</div>
+        <div class="accent">EST</div>
+      </div>
+      ${bottomBar(1, 'Next ›', 0.35)}`;
+    return;
+  }
+  const miniIdx = miniIdxs.indexOf(i);
+  const posText = `${String(miniIdx + 1).padStart(2, '0')} / ${String(totalMini).padStart(2, '0')}`;
+  const songsHTML = s.songs.map((title, idx) => `
+    <li class="song">
+      <span class="num">${String(idx + 1).padStart(2, '0')}</span>
+      <span class="title">${title}</span>
+    </li>`).join('');
+  stage.innerHTML = `
+    ${topBar(miniIdx, totalMini, posText)}
+    <div class="body">
+      <div class="label">
+        <span class="kicker">${s.kicker}</span>
+        <span class="name">${s.name}</span>
+      </div>
+      <ul class="songs">${songsHTML}</ul>
+    </div>
+    ${bottomBar()}`;
+}
+
+function renderSet(pageIdx) {
+  const page = setPages[pageIdx];
+  document.documentElement.style.setProperty('--accent', page.color);
+  const totalSongs = page.minis.reduce((a, mi) => a + setlist[mi].songs.length, 0);
+  const posText = `${String(pageIdx + 1).padStart(2, '0')} / ${String(setPages.length).padStart(2, '0')}`;
+  let sectionsHTML = '';
+  let songNumber = 1;
+  page.minis.forEach(mi => {
+    const s = setlist[mi];
+    const globalMiniIdx = miniIdxs.indexOf(mi);
+    const miniColor = COLORS[globalMiniIdx];
+    sectionsHTML += `<div class="set-mini-header" style="--mini-color:${miniColor}">
+      <span class="kicker">${s.kicker}</span>
+      <span class="name">${s.name}</span>
+    </div>`;
+    sectionsHTML += `<ul class="set-songlist" style="--mini-color:${miniColor}">`;
+    s.songs.forEach(title => {
+      sectionsHTML += `<li><span class="num">${String(songNumber).padStart(2, '0')}</span>${title}</li>`;
+      songNumber++;
+    });
+    sectionsHTML += `</ul>`;
+  });
+  const dots = [];
+  for (let i = 0; i < setPages.length; i++) {
+    let cls = 'dot';
+    if (i < pageIdx) cls += ' done';
+    if (i === pageIdx) cls += ' active';
+    dots.push(`<div class="${cls}"></div>`);
+  }
+  const isLast = pageIdx === setPages.length - 1;
+  const nextLabel = isLast ? 'End ›' : setPages[pageIdx + 1].name + ' ›';
+  stage.innerHTML = `
+    <div class="top">
+      <button class="home-btn" data-home="1" type="button">‹ Home</button>
+      <div class="progress">${dots.join('')}</div>
+      <div class="pos">${posText}</div>
+    </div>
+    <div class="set-body">
+      <div class="set-head">
+        <span class="kicker">Every Second Tuesday · ${GIG.venue}</span>
+        <div class="name">${page.name}</div>
+        <div class="count">${totalSongs} entries · ${page.minis.length} mini-sets</div>
+      </div>
+      ${sectionsHTML}
+    </div>
+    ${bottomBar(pageIdx === 0 ? 0.35 : 1, nextLabel, isLast ? 0.35 : 1)}`;
+}
+
+function renderFull() {
+  document.documentElement.style.setProperty('--accent', COLORS[0]);
+  let html = `
+    <div class="top">
+      <button class="home-btn" data-home="1" type="button">‹ Home</button>
+      <div style="flex:1"></div>
+      <div class="pos">Full Setlist</div>
+    </div>
+    <div class="full-body">`;
+  let currentSet = null;
+  miniIdxs.forEach((idx, mIdx) => {
+    const s = setlist[idx];
+    const m = s.kicker.match(/Set (\d+)/);
+    const setNum = m ? m[1] : null;
+    if (setNum !== currentSet) {
+      const words = { '1': 'Set One', '2': 'Set Two', '3': 'Set Three' };
+      if (currentSet !== null) {
+        html += `<div class="full-break">— BREAK —</div>`;
+      }
+      html += `<div class="full-set-head">${words[setNum] || 'Set'}</div>`;
+      currentSet = setNum;
+    }
+    const color = COLORS[mIdx];
+    html += `<div class="full-mini" style="--mini-color:${color}">
+      <span class="kicker">${s.kicker}</span>
+      <span class="name">${s.name}</span>
+    </div>
+    <ul class="full-songs" style="--mini-color:${color}">`;
+    s.songs.forEach((title, sIdx) => {
+      html += `<li><span class="num">${String(sIdx + 1).padStart(2, '0')}</span>${title}</li>`;
+    });
+    html += `</ul>`;
+  });
+  html += `</div>`;
+  stage.innerHTML = html;
+}
+
+function render() {
+  if (mode === 'home') return goHome();
+  if (mode === 'mini') return renderMini(cur);
+  if (mode === 'set')  return renderSet(cur);
+  if (mode === 'full') return renderFull();
+}
+
+function go(delta) {
+  if (mode === 'home' || mode === 'full') return;
+  if (mode === 'mini') {
+    cur = Math.max(0, Math.min(setlist.length - 1, cur + delta));
+  } else if (mode === 'set') {
+    cur = Math.max(0, Math.min(setPages.length - 1, cur + delta));
+  }
+  render();
+}
+
+function setMode(m) { mode = m; cur = 0; render(); }
+
+document.addEventListener('click', e => {
+  const homeBtn = e.target.closest('[data-home]');
+  if (homeBtn) { e.stopPropagation(); goHome(); return; }
+  const modeBtn = e.target.closest('[data-mode]');
+  if (modeBtn) { e.stopPropagation(); setMode(modeBtn.dataset.mode); return; }
+  const nav = e.target.closest('[data-nav]');
+  if (nav) { e.stopPropagation(); go(nav.dataset.nav === 'next' ? 1 : -1); return; }
+});
+
+let sx = 0, sy = 0, st = 0;
+document.addEventListener('touchstart', e => {
+  const t = e.changedTouches[0];
+  sx = t.screenX; sy = t.screenY; st = Date.now();
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  const t = e.changedTouches[0];
+  const dx = t.screenX - sx, dy = t.screenY - sy, dt = Date.now() - st;
+  if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) && dt < 800) {
+    go(dx < 0 ? 1 : -1);
+  }
+}, { passive: true });
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') go(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'PageUp') go(-1);
+  if (e.key === 'Escape' || e.key === 'h' || e.key === 'H') goHome();
+});
+
+let wakeLock = null;
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      showToast('Screen locked on');
+    }
+  } catch (e) {}
+}
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') requestWakeLock();
+});
+document.addEventListener('click', requestWakeLock, { once: true });
+document.addEventListener('touchstart', requestWakeLock, { once: true });
+
+render();
+</script>
+
+</body>
+</html>
