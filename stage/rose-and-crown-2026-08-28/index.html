@@ -34,6 +34,38 @@
     display: flex; flex-direction: column;
     transition: background-color 0.35s ease;
   }
+
+  /* ===== EST LOCKUP =====
+     EVERY SECOND on one line, TUESDAY beneath in tie-dye. */
+  .wm {
+    display: flex; flex-direction: column; align-items: center;
+    text-transform: uppercase; font-weight: 900;
+    line-height: 0.86;
+  }
+  .wm .l1 {
+    font-size: 1em;
+    letter-spacing: -0.020em;
+    color: var(--fg);
+    white-space: nowrap;
+  }
+  .wm .l2 {
+    font-size: 1.46em;
+    letter-spacing: -0.026em;
+    white-space: nowrap;
+    padding-top: 0.04em;
+  }
+  .wm .l2 i {
+    font-style: normal;
+    display: inline-block;
+  }
+  .wm .l2 i:nth-child(1) { color: #ff2e6e; text-shadow: 0 0 26px rgba(255,46,110,0.55); }
+  .wm .l2 i:nth-child(2) { color: #ff8a2e; text-shadow: 0 0 26px rgba(255,138,46,0.55); }
+  .wm .l2 i:nth-child(3) { color: #ffd93d; text-shadow: 0 0 26px rgba(255,217,61,0.55); }
+  .wm .l2 i:nth-child(4) { color: #a8e063; text-shadow: 0 0 26px rgba(168,224,99,0.55); }
+  .wm .l2 i:nth-child(5) { color: #4ecdc4; text-shadow: 0 0 26px rgba(78,205,196,0.55); }
+  .wm .l2 i:nth-child(6) { color: #4a90e2; text-shadow: 0 0 26px rgba(74,144,226,0.55); }
+  .wm .l2 i:nth-child(7) { color: #9b59d0; text-shadow: 0 0 26px rgba(155,89,208,0.55); }
+
   .top {
     padding: clamp(8px, 1.8vh, 20px) clamp(14px, 4vw, 32px) clamp(4px, 1vh, 10px);
     display: flex; align-items: center; gap: clamp(8px, 2vw, 18px);
@@ -95,7 +127,7 @@
   .btn.next { background: color-mix(in srgb, var(--accent) 20%, transparent); border-color: var(--accent); box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent); }
   .btn.next:active { background: var(--accent); color: #000; }
   .home-screen { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: clamp(20px, 4vh, 44px) clamp(18px, 5vw, 44px); text-align: center; gap: clamp(14px, 2.4vh, 24px); }
-  .home-brand { font-weight: 900; font-size: clamp(30px, min(6vh, 8vw), 76px); letter-spacing: -0.030em; line-height: 0.92; text-transform: uppercase; }
+  .home-brand { font-size: clamp(26px, min(5.2vh, 7vw), 62px); }
   .home-sub { font-weight: 700; font-size: clamp(11px, 1.6vh, 16px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); }
   .home-accent { color: var(--accent); text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 60%, transparent); font-weight: 900; font-size: clamp(20px, min(3.8vh, 6vw), 44px); letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 0 clamp(10px, 2vh, 22px); }
   .modes { display: flex; flex-direction: column; gap: clamp(10px, 1.6vh, 16px); margin-top: clamp(4px, 1.4vh, 14px); }
@@ -103,12 +135,13 @@
   .mode:active { transform: scale(0.98); background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: var(--accent); }
   .mode .m-title { font-weight: 900; font-size: clamp(16px, 2.4vh, 22px); letter-spacing: 0.16em; text-transform: uppercase; }
   .mode .m-desc { font-weight: 500; font-size: clamp(11px, 1.5vh, 14px); color: var(--dim); line-height: 1.4; }
-  .body.cover, .body.break, .body.end { text-align: center; justify-content: center; padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px); }
+  .body.cover, .body.break, .body.end { text-align: center; justify-content: center; padding: clamp(20px, 5vh, 60px) clamp(18px, 5vw, 44px); align-items: center; }
+  .cover-brand { font-size: clamp(34px, min(8vh, 11vw), 104px); }
   .break .banner { font-size: clamp(52px, min(14vh, 20vw), 200px); font-weight: 900; letter-spacing: 0.16em; color: var(--accent); text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 55%, transparent); }
   .break .sub { color: var(--dim); font-size: clamp(12px, 1.8vh, 22px); padding-top: clamp(16px, 2.6vh, 30px); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; line-height: 1.5; }
   .end .brand { font-size: clamp(40px, min(10vh, 15vw), 130px); font-weight: 900; letter-spacing: -0.028em; line-height: 0.92; text-transform: uppercase; }
   .end .sub { font-size: clamp(11px, 1.7vh, 18px); font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); padding-top: clamp(12px, 2.2vh, 22px); }
-  .end .accent { color: var(--accent); text-shadow: 0 0 26px color-mix(in srgb, var(--accent) 60%, transparent); padding-top: clamp(20px, 4vh, 40px); font-size: clamp(20px, min(3.8vh, 6vw), 44px); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+  .end .lockup { padding-top: clamp(20px, 4vh, 40px); font-size: clamp(16px, min(3vh, 5vw), 34px); }
   .tapleft, .tapright { position: fixed; top: 0; bottom: 0; width: 30%; z-index: 10; }
   .tapleft  { left: 0; }
   .tapright { right: 0; }
@@ -124,6 +157,8 @@
     .song .num { font-size: 10px; padding-top: 0.5em; }
     .bot { padding: 3px 14px calc(env(safe-area-inset-bottom) + 6px); }
     .btn { padding: 7px 16px; font-size: 10px; }
+    .home-brand { font-size: min(6vh, 34px); }
+    .cover-brand { font-size: min(9vh, 52px); }
   }
   @media (orientation: landscape) and (min-width: 900px) {
     .song { font-size: min(10vh, 118px); }
@@ -133,6 +168,8 @@
     .song { font-size: min(6vh, 7vw); }
     .btn { padding: 10px 18px; font-size: 11px; letter-spacing: 0.16em; }
     .label .name { letter-spacing: 0.14em; }
+    .home-brand { font-size: 30px; }
+    .cover-brand { font-size: 40px; }
   }
 </style>
 </head>
@@ -148,6 +185,12 @@ const COLORS = [
   '#ff2e6e','#ff8a2e','#ffd93d','#a8e063','#4ecdc4',
   '#4a90e2','#9b59d0','#ff2eae','#ff6b6b','#ffa04d','#7dff5c'
 ];
+
+// EST lockup: EVERY SECOND on line 1, TUESDAY in tie-dye on line 2.
+const LOCKUP = `<div class="wm">
+  <span class="l1">Every Second</span>
+  <span class="l2"><i>T</i><i>U</i><i>E</i><i>S</i><i>D</i><i>A</i><i>Y</i></span>
+</div>`;
 
 const GIG = {
   venue: 'The Rose &amp; Crown',
@@ -208,7 +251,7 @@ function goHome() {
   document.documentElement.style.setProperty('--accent', COLORS[0]);
   stage.innerHTML = `
     <div class="home-screen">
-      <div class="home-brand">Every<br>Second<br>Tuesday</div>
+      <div class="home-brand">${LOCKUP}</div>
       <div class="home-accent">${GIG.venue}</div>
       <div class="home-sub">${GIG.date}</div>
       <div class="modes">
@@ -277,7 +320,7 @@ function renderMini(i) {
     stage.innerHTML = `
       ${topBar(null, 0, '')}
       <div class="body cover">
-        <div class="home-brand" style="font-size:clamp(40px,min(10vh,15vw),130px)">Every<br>Second<br>Tuesday</div>
+        <div class="cover-brand">${LOCKUP}</div>
         <div class="home-accent">${GIG.venue}</div>
         <div class="home-sub">${GIG.date}</div>
       </div>
@@ -300,7 +343,7 @@ function renderMini(i) {
       <div class="body end">
         <div class="brand">Thank you.</div>
         <div class="sub">${GIG.venue} · ${GIG.dateShort}</div>
-        <div class="accent">EST</div>
+        <div class="lockup">${LOCKUP}</div>
       </div>
       ${bottomBar(1, 'Next ›', 0.35)}`;
     return;
