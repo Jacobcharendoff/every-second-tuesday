@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EST · R&C 10.03">
+<meta name="theme-color" content="#000000">
+<title>EST · Stage · Rose &amp; Crown · Oct 3, 2026</title>
+<style>
+  :root{--bg:#000;--fg:#f4ede1;--dim:rgba(244,237,225,0.42);--dim-2:rgba(244,237,225,0.14);--accent:#ff2e6e}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{width:100%;height:100%;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
+    overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+  @supports (height:100dvh){html,body{height:100dvh}}
+  #stage{position:fixed;inset:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    display:flex;flex-direction:column;transition:background-color .35s ease}
+  .wm{display:flex;flex-direction:column;align-items:center;text-transform:uppercase;font-weight:900;line-height:.86}
+  .wm .l1{font-size:1em;letter-spacing:-.020em;color:var(--fg);white-space:nowrap}
+  .wm .l2{font-size:1.46em;letter-spacing:-.026em;white-space:nowrap;padding-top:.04em}
+  .wm .l2 i{font-style:normal;display:inline-block}
+  .wm .l2 i:nth-child(1){color:#ff2e6e;text-shadow:0 0 26px rgba(255,46,110,.55)}
+  .wm .l2 i:nth-child(2){color:#ff8a2e;text-shadow:0 0 26px rgba(255,138,46,.55)}
+  .wm .l2 i:nth-child(3){color:#ffd93d;text-shadow:0 0 26px rgba(255,217,61,.55)}
+  .wm .l2 i:nth-child(4){color:#a8e063;text-shadow:0 0 26px rgba(168,224,99,.55)}
+  .wm .l2 i:nth-child(5){color:#4ecdc4;text-shadow:0 0 26px rgba(78,205,196,.55)}
+  .wm .l2 i:nth-child(6){color:#4a90e2;text-shadow:0 0 26px rgba(74,144,226,.55)}
+  .wm .l2 i:nth-child(7){color:#9b59d0;text-shadow:0 0 26px rgba(155,89,208,.55)}
+  .top{padding:clamp(8px,1.8vh,20px) clamp(14px,4vw,32px) clamp(4px,1vh,10px);display:flex;align-items:center;gap:clamp(8px,2vw,18px);flex-shrink:0}
+  .home-btn{-webkit-appearance:none;appearance:none;background:rgba(244,237,225,.10);color:var(--fg);
+    border:1.5px solid rgba(244,237,225,.30);border-radius:999px;padding:6px 14px;
+    font-size:clamp(10px,1.4vh,13px);font-weight:900;letter-spacing:.20em;text-transform:uppercase;
+    cursor:pointer;flex-shrink:0;white-space:nowrap;z-index:20;position:relative}
+  .home-btn:active{transform:scale(.96);background:var(--accent);border-color:var(--accent);color:#000}
+  .progress{display:flex;gap:4px;flex:1;min-width:0}
+  .progress .dot{flex:1;height:4px;background:var(--dim-2);border-radius:2px;transition:background .25s,box-shadow .25s}
+  .progress .dot.done{background:rgba(244,237,225,.55)}
+  .progress .dot.active{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  .pos{font-family:"SF Mono",ui-monospace,monospace;font-size:clamp(10px,1.4vh,13px);font-weight:700;color:var(--dim);letter-spacing:.18em;white-space:nowrap;flex-shrink:0}
+  .body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(10px,2vh,22px) clamp(16px,4.5vw,44px);overflow:hidden}
+  .label{padding-bottom:clamp(8px,1.4vh,14px);border-bottom:1px solid var(--dim-2);margin-bottom:clamp(10px,2vh,22px)}
+  .label .kicker{font-family:"SF Mono",ui-monospace,monospace;font-weight:700;font-size:clamp(9px,1.4vh,12px);letter-spacing:.30em;text-transform:uppercase;color:var(--dim);display:block}
+  .label .name{font-weight:900;font-size:clamp(15px,2.4vh,24px);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);text-shadow:0 0 22px color-mix(in srgb,var(--accent) 55%,transparent);padding-top:3px;display:block}
+  .songs{list-style:none;display:flex;flex-direction:column;gap:clamp(4px,1.5vh,18px)}
+  .song{display:flex;align-items:baseline;gap:clamp(8px,1.6vw,24px);overflow-wrap:break-word}
+  .song .num{font-family:"SF Mono",ui-monospace,monospace;font-size:clamp(11px,1.6vh,20px);font-weight:700;color:var(--accent);flex-shrink:0;min-width:1.6em;text-align:right;align-self:flex-start;padding-top:.5em}
+  .song .tx{flex:1;min-width:0}
+  .song .ti{display:block;font-weight:900;font-size:clamp(19px,min(5.6vh,7vw),86px);line-height:1.02;letter-spacing:-.024em;color:var(--fg);overflow-wrap:break-word}
+  .song .ar{display:block;font-weight:700;font-size:clamp(10px,min(1.7vh,2.4vw),22px);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding-top:.25em}
+  .set-body,.full-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:clamp(12px,2vh,22px) clamp(16px,4.5vw,44px) clamp(16px,3vh,32px)}
+  .set-head{padding-bottom:clamp(10px,2vh,20px);border-bottom:2px solid var(--accent);margin-bottom:clamp(14px,2.4vh,24px)}
+  .set-head .kicker{font-family:"SF Mono",ui-monospace,monospace;font-weight:700;font-size:clamp(10px,1.5vh,13px);letter-spacing:.30em;text-transform:uppercase;color:var(--dim);display:block}
+  .set-head .name{font-weight:900;font-size:clamp(36px,min(9vh,12vw),108px);letter-spacing:-.028em;text-transform:uppercase;color:var(--fg);padding-top:4px}
+  .set-head .count{font-family:"SF Mono",ui-monospace,monospace;font-weight:700;font-size:clamp(10px,1.5vh,13px);letter-spacing:.30em;text-transform:uppercase;color:var(--accent);padding-top:6px}
+  .mh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:clamp(10px,1.8vh,18px) 0 clamp(4px,.6vh,8px)}
+  .mh .kicker{font-family:"SF Mono",ui-monospace,monospace;font-weight:700;font-size:clamp(9px,1.3vh,11px);letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+  .mh .name{font-weight:900;font-size:clamp(15px,2.2vh,22px);letter-spacing:.16em;text-transform:uppercase;color:var(--mc,var(--accent));text-shadow:0 0 18px color-mix(in srgb,var(--mc,var(--accent)) 55%,transparent)}
+  .sl{list-style:none;padding:0;margin:0}
+  .sl li{display:flex;align-items:baseline;gap:12px;padding:3px 0}
+  .sl li .num{font-family:"SF Mono",ui-monospace,monospace;font-weight:700;font-size:clamp(11px,1.5vh,14px);color:var(--mc,var(--accent));min-width:2.2em;flex-shrink:0}
+  .sl li .tx{flex:1;min-width:0}
+  .sl li .ti{display:block;font-weight:800;font-size:clamp(14px,min(2.2vh,4.3vw),24px);line-height:1.24;text-transform:uppercase;letter-spacing:.02em;color:var(--fg)}
+  .sl li .ar{display:block;font-weight:700;font-size:clamp(9px,min(1.3vh,2.5vw),13px);letter-spacing:.12em;text-transform:uppercase;color:rgba(244,237,225,0.34);padding-top:1px}
+  .full-set-head{font-weight:900;font-size:clamp(28px,min(7vh,10vw),88px);letter-spacing:-.024em;text-transform:uppercase;color:var(--fg);padding-top:clamp(14px,2vh,24px);padding-bottom:clamp(6px,1vh,12px);border-bottom:1px solid var(--dim-2);margin-bottom:clamp(14px,2vh,22px)}
+  .full-break{text-align:center;padding:clamp(24px,4vh,42px) 0 clamp(12px,2vh,22px);font-weight:900;font-size:clamp(14px,2vh,20px);letter-spacing:.42em;color:var(--dim)}
+  .bot{padding:clamp(6px,1vh,10px) clamp(10px,3vw,20px) calc(env(safe-area-inset-bottom) + clamp(10px,1.8vh,18px));display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
+  .btn{-webkit-appearance:none;appearance:none;background:rgba(244,237,225,.10);color:var(--fg);border:1.5px solid rgba(244,237,225,.30);border-radius:999px;
+    padding:clamp(9px,1.4vh,15px) clamp(16px,4vw,32px);font-size:clamp(11px,1.6vh,16px);font-weight:900;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;z-index:20;position:relative;transition:transform .06s,background .15s,box-shadow .2s;white-space:nowrap}
+  .btn:active{transform:scale(.96)}
+  .btn.next{background:color-mix(in srgb,var(--accent) 20%,transparent);border-color:var(--accent);box-shadow:0 0 22px color-mix(in srgb,var(--accent) 35%,transparent)}
+  .btn.next:active{background:var(--accent);color:#000}
+  .home-screen{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:stretch;padding:clamp(20px,4vh,44px) clamp(18px,5vw,44px);text-align:center;gap:clamp(14px,2.4vh,24px)}
+  .home-brand{font-size:clamp(26px,min(5.2vh,7vw),62px)}
+  .cover-brand{font-size:clamp(34px,min(8vh,11vw),104px)}
+  .home-sub{font-weight:700;font-size:clamp(11px,1.6vh,16px);letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+  .home-accent{color:var(--accent);text-shadow:0 0 24px color-mix(in srgb,var(--accent) 60%,transparent);font-weight:900;font-size:clamp(20px,min(3.8vh,6vw),44px);letter-spacing:.06em;text-transform:uppercase;padding:4px 0 clamp(10px,2vh,22px)}
+  .modes{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,16px);margin-top:clamp(4px,1.4vh,14px)}
+  .mode{-webkit-appearance:none;appearance:none;background:rgba(244,237,225,.08);color:var(--fg);border:1.5px solid rgba(244,237,225,.28);border-radius:22px;
+    padding:clamp(14px,2.4vh,22px) clamp(16px,4vw,28px);cursor:pointer;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:6px;transition:transform .06s,background .15s,border-color .15s}
+  .mode:active{transform:scale(.98);background:color-mix(in srgb,var(--accent) 22%,transparent);border-color:var(--accent)}
+  .mode .m-title{font-weight:900;font-size:clamp(16px,2.4vh,22px);letter-spacing:.16em;text-transform:uppercase}
+  .mode .m-desc{font-weight:500;font-size:clamp(11px,1.5vh,14px);color:var(--dim);line-height:1.4}
+  .body.cover,.body.break,.body.end{text-align:center;justify-content:center;align-items:center;padding:clamp(20px,5vh,60px) clamp(18px,5vw,44px)}
+  .break .banner{font-size:clamp(52px,min(14vh,20vw),200px);font-weight:900;letter-spacing:.16em;color:var(--accent);text-shadow:0 0 38px color-mix(in srgb,var(--accent) 55%,transparent)}
+  .break .sub{color:var(--dim);font-size:clamp(12px,1.8vh,22px);padding-top:clamp(16px,2.6vh,30px);letter-spacing:.2em;text-transform:uppercase;font-weight:700;line-height:1.5}
+  .end .brand{font-size:clamp(40px,min(10vh,15vw),130px);font-weight:900;letter-spacing:-.028em;line-height:.92;text-transform:uppercase}
+  .end .sub{font-size:clamp(11px,1.7vh,18px);font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);padding-top:clamp(12px,2.2vh,22px)}
+  .end .lockup{padding-top:clamp(20px,4vh,40px);font-size:clamp(16px,min(3vh,5vw),34px)}
+  .tapleft,.tapright{position:fixed;top:0;bottom:0;width:30%;z-index:10}
+  .tapleft{left:0}.tapright{right:0}
+  .toast{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 70px);left:50%;transform:translateX(-50%);background:rgba(244,237,225,.12);color:var(--fg);padding:8px 16px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .3s;z-index:100;backdrop-filter:blur(8px)}
+  .toast.show{opacity:1}
+  @media (orientation:landscape) and (max-height:500px){
+    .body{padding:6px 28px}.label{padding-bottom:6px;margin-bottom:8px}
+    .label .kicker{font-size:8px}.label .name{font-size:12px}
+    .songs{gap:3px}.song .ti{font-size:min(7vh,40px)}.song .ar{font-size:9px}
+    .song .num{font-size:10px;padding-top:.45em}
+    .bot{padding:3px 14px calc(env(safe-area-inset-bottom) + 6px)}.btn{padding:7px 16px;font-size:10px}
+    .home-brand{font-size:min(6vh,34px)}.cover-brand{font-size:min(9vh,52px)}}
+  @media (orientation:landscape) and (min-width:900px){.song .ti{font-size:min(9vh,104px)}.label .name{font-size:26px}}
+  @media (max-width:420px){.song .ti{font-size:min(5.4vh,6.6vw)}.btn{padding:10px 18px;font-size:11px;letter-spacing:.16em}}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div class="tapleft" data-nav="prev"></div>
+<div class="tapright" data-nav="next"></div>
+<div class="toast" id="toast">Screen locked on</div>
+<script>
+const COLORS=['#ff2e6e','#ff8a2e','#ffd93d','#a8e063','#4ecdc4','#4a90e2','#9b59d0','#ff2eae','#ff6b6b','#ffa04d','#7dff5c'];
+const LOCKUP=`<div class="wm"><span class="l1">Every Second</span><span class="l2"><i>T</i><i>U</i><i>E</i><i>S</i><i>D</i><i>A</i><i>Y</i></span></div>`;
+const GIG={venue:'The Rose &amp; Crown',date:'Saturday, Oct 3, 2026',dateShort:'10.03.2026'};
+const setlist=[
+  { type: 'cover' },
+  { kicker: "Set 1 · Mini-Set 1", name: "Opener", songs: [["It's a Long Way to the Top","AC/DC"],["Born to Be Wild","Steppenwolf"],["Sweet Emotion","Aerosmith"],["Johnny B. Goode","Chuck Berry"]]},
+  { kicker: "Set 1 · Mini-Set 2", name: "Build", songs: [["Paint It Black","The Rolling Stones"],["Rock and Roll","Led Zeppelin"],["Burnin' for You","Blue Öyster Cult"],["Shakedown Street","Grateful Dead"]]},
+  { kicker: "Set 1 · Mini-Set 3", name: "Groove", songs: [["Fire","Jimi Hendrix"],["I Wouldn't Want To Be Like You","The Alan Parsons Project"],["Funk #49","James Gang"],["War Pigs","Black Sabbath"]]},
+  { kicker: "Set 1 · Mini-Set 4", name: "Set One Closer", songs: [["Break On Through","The Doors"],["Love Me Two Times","The Doors"],["School Of Rock (Teacher's Pet)","School Of Rock"]]},
+  { type: 'break' },
+  { kicker: "Set 2 · Mini-Set 1", name: "Set Two Opener", songs: [["Seven Nation Army","The White Stripes"],["Are You Gonna Be My Girl","Jet"],["Mr. Brightside","The Killers"],["Somebody Told Me","The Killers"]]},
+  { kicker: "Set 2 · Mini-Set 2", name: "Singalongs", songs: [["Song 2","Blur"],["All Star","Smash Mouth"],["Take Me Out","Franz Ferdinand"],["This Love","Maroon 5"]]},
+  { kicker: "Set 2 · Mini-Set 3", name: "Peak", songs: [["Yellow","Coldplay"],["All the Small Things","Blink-182"],["Sex on Fire","Kings of Leon"],["Superstition","Stevie Wonder"]]},
+  { kicker: "Set 2 · Mini-Set 4", name: "Set Two Closer", songs: [["Watermelon Sugar","Harry Styles"],["You Shook Me All Night Long","AC/DC"],["Use Somebody","Kings of Leon"],["Livin' on a Prayer","Bon Jovi"]]},
+  { type: 'break' },
+  { kicker: "Set 3 · Mini-Set 1", name: "Set Three Opener", songs: [["Wonderwall","Oasis"],["No One Knows","Queens Of The Stone Age"],["Rock You Like a Hurricane","Scorpions"],["Money","Pink Floyd"]]},
+  { kicker: "Set 3 · Mini-Set 2", name: "The Long Ones", songs: [["Vertigo","U2"],["Whipping Post","The Allman Brothers Band"],["Learn to Fly","Foo Fighters"]]},
+  { kicker: "Set 3 · Mini-Set 3", name: "The Big Finish", songs: [["Highway Star","Deep Purple"],["Closing Time","Semisonic"],["Carry On Wayward Son","Kansas"]]},
+  { type: 'end' },
+];
+const miniIdxs=setlist.map((s,i)=>s.type?-1:i).filter(i=>i>=0);
+const totalMini=miniIdxs.length;
+const mini=n=>miniIdxs.filter(i=>setlist[i].kicker.startsWith('Set '+n));
+const setPages=[{name:'Set One',minis:mini(1),color:COLORS[1]},
+                {name:'Set Two',minis:mini(2),color:COLORS[5]},
+                {name:'Set Three',minis:mini(3),color:COLORS[9]}];
+let mode='home',cur=0;
+const stage=document.getElementById('stage'),toast=document.getElementById('toast');
+function goHome(){mode='home';cur=0;document.documentElement.style.setProperty('--accent',COLORS[0]);
+ stage.innerHTML=`<div class="home-screen"><div class="home-brand">${LOCKUP}</div>
+ <div class="home-accent">${GIG.venue}</div><div class="home-sub">${GIG.date}</div>
+ <div class="modes">
+  <button class="mode" data-mode="mini" type="button"><span class="m-title">Mini-Set Mode</span><span class="m-desc">Swipe through 11 mini-sets. Neon colour per set. Recommended for stage.</span></button>
+  <button class="mode" data-mode="set" type="button"><span class="m-title">Single Set Mode</span><span class="m-desc">Three screens — Set 1, Set 2, Set 3. Every song, scrollable.</span></button>
+  <button class="mode" data-mode="full" type="button"><span class="m-title">Full Setlist</span><span class="m-desc">Scroll everything. All three sets in one long view.</span></button>
+ </div></div>`;}
+function topBar(i,n,p){let d='';for(let x=0;x<n;x++){let c='dot';if(i!=null&&x<i)c+=' done';if(i!=null&&x===i)c+=' active';d+=`<div class="${c}"></div>`}
+ return `<div class="top"><button class="home-btn" data-home="1" type="button">‹ Home</button><div class="progress">${d}</div>${p?`<div class="pos">${p}</div>`:''}</div>`}
+function bottomBar(po=1,nl='Next ›',no=1){return `<div class="bot">
+ <button class="btn prev" data-nav="prev" type="button"${po<1?' style="opacity:0.35"':''}>‹ Prev</button>
+ <button class="btn next" data-nav="next" type="button"${no<1?' style="opacity:0.35"':''}>${nl}</button></div>`}
+function nextSetLabel(a){const n=miniIdxs.find(x=>x>a);if(n==null)return 'Next ›';
+ const m=setlist[n].kicker.match(/Set (\d+)/);const w={1:'Set One',2:'Set Two',3:'Set Three'};
+ return (w[m?+m[1]:0]||'Next')+' ›'}
+function renderMini(i){const s=setlist[i];let a=COLORS[0];
+ if(s.type==='end')a=COLORS[COLORS.length-1];
+ else if(s.type==='break'){const n=miniIdxs.find(x=>x>i);a=n!=null?COLORS[miniIdxs.indexOf(n)]:COLORS[0]}
+ else if(!s.type)a=COLORS[miniIdxs.indexOf(i)];
+ document.documentElement.style.setProperty('--accent',a);
+ if(s.type==='cover'){stage.innerHTML=`${topBar(null,0,'')}<div class="body cover">
+  <div class="cover-brand">${LOCKUP}</div><div class="home-accent">${GIG.venue}</div>
+  <div class="home-sub">${GIG.date}</div></div>${bottomBar(0.35,'Start ›')}`;return}
+ if(s.type==='break'){stage.innerHTML=`${topBar(null,0,'')}<div class="body break">
+  <div class="banner">BREAK</div><div class="sub">Twenty minutes.<br>Water. Tuning. Come back hot.</div>
+  </div>${bottomBar(1,nextSetLabel(i))}`;return}
+ if(s.type==='end'){stage.innerHTML=`${topBar(null,0,'')}<div class="body end">
+  <div class="brand">Thank you.</div><div class="sub">${GIG.venue} · ${GIG.dateShort}</div>
+  <div class="lockup">${LOCKUP}</div></div>${bottomBar(1,'Next ›',0.35)}`;return}
+ const mi=miniIdxs.indexOf(i);
+ const p=`${String(mi+1).padStart(2,'0')} / ${String(totalMini).padStart(2,'0')}`;
+ const h=s.songs.map((sg,x)=>`<li class="song"><span class="num">${String(x+1).padStart(2,'0')}</span>
+  <span class="tx"><span class="ti">${sg[0]}</span><span class="ar">${sg[1]}</span></span></li>`).join('');
+ stage.innerHTML=`${topBar(mi,totalMini,p)}<div class="body">
+  <div class="label"><span class="kicker">${s.kicker}</span><span class="name">${s.name}</span></div>
+  <ul class="songs">${h}</ul></div>${bottomBar()}`}
+function renderSet(pi){const pg=setPages[pi];
+ document.documentElement.style.setProperty('--accent',pg.color);
+ const tot=pg.minis.reduce((a,m)=>a+setlist[m].songs.length,0);
+ const p=`${String(pi+1).padStart(2,'0')} / ${String(setPages.length).padStart(2,'0')}`;
+ let sec='',n=1;
+ pg.minis.forEach(m=>{const s=setlist[m],c=COLORS[miniIdxs.indexOf(m)];
+  sec+=`<div class="mh" style="--mc:${c}"><span class="kicker">${s.kicker}</span><span class="name">${s.name}</span></div>`;
+  sec+=`<ul class="sl" style="--mc:${c}">`;
+  s.songs.forEach(sg=>{sec+=`<li><span class="num">${String(n).padStart(2,'0')}</span>
+   <span class="tx"><span class="ti">${sg[0]}</span><span class="ar">${sg[1]}</span></span></li>`;n++});
+  sec+='</ul>'});
+ let d='';for(let x=0;x<setPages.length;x++){let c='dot';if(x<pi)c+=' done';if(x===pi)c+=' active';d+=`<div class="${c}"></div>`}
+ const last=pi===setPages.length-1;
+ stage.innerHTML=`<div class="top"><button class="home-btn" data-home="1" type="button">‹ Home</button>
+  <div class="progress">${d}</div><div class="pos">${p}</div></div>
+  <div class="set-body"><div class="set-head"><span class="kicker">Every Second Tuesday · ${GIG.venue}</span>
+  <div class="name">${pg.name}</div><div class="count">${tot} songs · ${pg.minis.length} mini-sets</div></div>
+  ${sec}</div>${bottomBar(pi===0?0.35:1,last?'End ›':setPages[pi+1].name+' ›',last?0.35:1)}`}
+function renderFull(){document.documentElement.style.setProperty('--accent',COLORS[0]);
+ let h=`<div class="top"><button class="home-btn" data-home="1" type="button">‹ Home</button>
+  <div style="flex:1"></div><div class="pos">Full Setlist</div></div><div class="full-body">`;
+ let cs=null;
+ miniIdxs.forEach((idx,mi)=>{const s=setlist[idx];const m=s.kicker.match(/Set (\d+)/);const sn=m?m[1]:null;
+  if(sn!==cs){const w={'1':'Set One','2':'Set Two','3':'Set Three'};
+   if(cs!==null)h+='<div class="full-break">— BREAK —</div>';
+   h+=`<div class="full-set-head">${w[sn]||'Set'}</div>`;cs=sn}
+  const c=COLORS[mi];
+  h+=`<div class="mh" style="--mc:${c}"><span class="kicker">${s.kicker}</span><span class="name">${s.name}</span></div>
+   <ul class="sl" style="--mc:${c}">`;
+  s.songs.forEach((sg,x)=>{h+=`<li><span class="num">${String(x+1).padStart(2,'0')}</span>
+   <span class="tx"><span class="ti">${sg[0]}</span><span class="ar">${sg[1]}</span></span></li>`});
+  h+='</ul>'});
+ h+='</div>';stage.innerHTML=h}
+function render(){if(mode==='home')return goHome();if(mode==='mini')return renderMini(cur);
+ if(mode==='set')return renderSet(cur);if(mode==='full')return renderFull()}
+function go(d){if(mode==='home'||mode==='full')return;
+ if(mode==='mini')cur=Math.max(0,Math.min(setlist.length-1,cur+d));
+ else if(mode==='set')cur=Math.max(0,Math.min(setPages.length-1,cur+d));render()}
+function setMode(m){mode=m;cur=0;render()}
+document.addEventListener('click',e=>{
+ if(e.target.closest('[data-home]')){e.stopPropagation();goHome();return}
+ const mb=e.target.closest('[data-mode]');if(mb){e.stopPropagation();setMode(mb.dataset.mode);return}
+ const nv=e.target.closest('[data-nav]');if(nv){e.stopPropagation();go(nv.dataset.nav==='next'?1:-1);return}});
+let sx=0,sy=0,st=0;
+document.addEventListener('touchstart',e=>{const t=e.changedTouches[0];sx=t.screenX;sy=t.screenY;st=Date.now()},{passive:true});
+document.addEventListener('touchend',e=>{const t=e.changedTouches[0];
+ const dx=t.screenX-sx,dy=t.screenY-sy,dt=Date.now()-st;
+ if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)&&dt<800)go(dx<0?1:-1)},{passive:true});
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')go(1);
+ if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);
+ if(e.key==='Escape'||e.key==='h'||e.key==='H')goHome()});
+let wakeLock=null;
+async function requestWakeLock(){try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');showToast('Screen locked on')}}catch(e){}}
+function showToast(m){toast.textContent=m;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800)}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')requestWakeLock()});
+document.addEventListener('click',requestWakeLock,{once:true});
+document.addEventListener('touchstart',requestWakeLock,{once:true});
+render();
+</script>
+</body>
+</html>
