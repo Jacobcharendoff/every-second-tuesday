@@ -120,16 +120,16 @@ const setlist=[
   { kicker: "Set 1 · Mini-Set 1", name: "Opener", songs: [
     ["Born to Be Wild","Steppenwolf","3:28"],
     ["Rock You Like a Hurricane","Scorpions","4:11"],
-    ["Burnin' for You","Blue Öyster Cult","4:33"]]},
-  { kicker: "Set 1 · Mini-Set 2", name: "Boogie", songs: [
     ["Ramblin' Man","The Allman Brothers Band","4:44"],
     ["Rock and Roll","Led Zeppelin","3:40"]]},
-  { kicker: "Set 1 · Mini-Set 3", name: "The Floyd Stretch", songs: [
+  { kicker: "Set 1 · Mini-Set 2", name: "The Floyd Stretch", songs: [
     ["Breathe","Pink Floyd","2:49"],
     ["Money","Pink Floyd","6:22"],
     ["Norwegian Wood","The Beatles","2:05"]]},
-  { kicker: "Set 1 · Mini-Set 4", name: "Set One Closer", songs: [
+  { kicker: "Set 1 · Mini-Set 3", name: "Set One Closer", songs: [
     ["Love Me Two Times","The Doors","3:19"],
+    ["Break On Through","The Doors","2:29"],
+    ["Vertigo","U2","3:37"],
     ["Whipping Post","The Allman Brothers Band","5:20"]]},
   { type: 'break' },
   { kicker: "Set 2 · Mini-Set 1", name: "Set Two Opener", songs: [
@@ -139,16 +139,15 @@ const setlist=[
   { kicker: "Set 2 · Mini-Set 2", name: "Groove", songs: [
     ["Shakedown Street","Grateful Dead","5:17"],
     ["I Wouldn't Want To Be Like You","The Alan Parsons Project","3:32"],
-    ["Break On Through","The Doors","2:29"],
     ["Superstition","Stevie Wonder","4:26"]]},
   { kicker: "Set 2 · Mini-Set 3", name: "Singalongs", songs: [
     ["This Love","Maroon 5","3:27"],
     ["All Star","Smash Mouth","3:58"],
-    ["School Of Rock (Teacher's Pet)","School Of Rock","4:14"],
-    ["Mr. Brightside","The Killers","3:42"]]},
+    ["School Of Rock (Teacher's Pet)","School Of Rock","4:14"]]},
   { kicker: "Set 2 · Mini-Set 4", name: "The Big Finish", songs: [
     ["Yellow","Coldplay","4:29"],
-    ["Vertigo","U2","3:37"]]},
+    ["Mr. Brightside","The Killers","3:42"],
+    ["Livin' on a Prayer","Bon Jovi","4:09"]]},
   { type: 'end' },
 ];
 const miniIdxs=setlist.map((s,i)=>s.type?-1:i).filter(i=>i>=0);
